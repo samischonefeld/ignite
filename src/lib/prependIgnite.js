@@ -6,7 +6,7 @@ const path = require('path')
  * @param {string} value The string to check.
  * @returns {string} The same string, but better.
  */
-const prependIgnite = function (value) {
+const prependIgnite = function(value) {
   // If a path, ignore, it's fine
   if (value.includes(path.sep)) return value
 

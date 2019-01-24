@@ -65,5 +65,5 @@ module.exports = {
   /**
    * One of the global dependencies are not met.
    */
-  INVALID_GLOBAL_DEPENDENCY: 12
+  INVALID_GLOBAL_DEPENDENCY: 12,
 }

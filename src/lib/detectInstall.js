@@ -14,7 +14,7 @@ const path = require('path')
  * @param  {object} context - an ignite context
  * @return {object}         - specs about the type of install
  */
-function detectInstall (context) {
+function detectInstall(context) {
   // grab some gluegun goodies
   const { filesystem, parameters, ignite } = context
 
@@ -28,12 +28,11 @@ function detectInstall (context) {
    * @return {boolean}          - True if this is valid; otherwise false.
    */
   const isValidIgnitePluginDirectory = candidate =>
-    filesystem.exists(candidate) === 'dir' &&
-      filesystem.exists(`${candidate}${path.sep}package.json`) === 'file'
+    filesystem.exists(candidate) === 'dir' && filesystem.exists(`${candidate}${path.sep}package.json`) === 'file'
 
   // the plugin we're trying to install
   let plugin = parameters.second
-  
+
   // extract the package name and (optionally) version
   let packageName, packageVersion
   const versionSepRe = /(?<!^|\/)@/
@@ -53,7 +52,7 @@ function detectInstall (context) {
     // look for the plugin into one of our override paths
     const foundPath = find(
       overridePath => isValidIgnitePluginDirectory(`${overridePath}${path.sep}${packageName}`),
-      pluginOverrides
+      pluginOverrides,
     )
 
     // did we find it?
@@ -63,7 +62,7 @@ function detectInstall (context) {
         directory: path,
         override: true,
         moduleName: filesystem.read(`${path}/package.json`, 'json').name,
-        type: 'directory'
+        type: 'directory',
       }
     }
   }
@@ -74,7 +73,7 @@ function detectInstall (context) {
     return {
       directory: packageName,
       moduleName: json.name,
-      type: 'directory'
+      type: 'directory',
     }
   }
 
@@ -82,7 +81,7 @@ function detectInstall (context) {
   return {
     moduleName: packageName,
     version: packageVersion,
-    type: 'npm'
+    type: 'npm',
   }
 }
 

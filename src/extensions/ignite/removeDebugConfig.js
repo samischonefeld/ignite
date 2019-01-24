@@ -6,14 +6,12 @@ module.exports = (plugin, command, context) => {
    *
    * @param {string}  key Key of setting to be removed
    */
-  function removeDebugConfig (key) {
+  function removeDebugConfig(key) {
     const { print, filesystem, patching } = context
     const debugConfig = `${process.cwd()}/App/Config/DebugConfig.js`
 
     if (!filesystem.exists(debugConfig)) {
-      print.error(
-        '💩 No `App/Config/DebugConfig.js` file found in this folder, are you sure it is an ignite project?'
-      )
+      print.error('💩 No `App/Config/DebugConfig.js` file found in this folder, are you sure it is an ignite project?')
       process.exit(exitCodes.generic)
     }
 

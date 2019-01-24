@@ -12,9 +12,11 @@ module.exports = (plugin, command, context) => {
    * ])
    */
   // DEPRECATED as of 3/2/17 as part of Ignite CLI Beta (https://github.com/infinitered/ignite/issues/636)
-  async function removeScreenExamples (files) {
+  async function removeScreenExamples(files) {
     const { ignite, print } = context
-    print.warning('DEPRECATION_WARNING: Heads up! `ignite.removeScreenExamples` is deprecated. Please use `ignite.removePluginScreenExamples` instead.')
+    print.warning(
+      'DEPRECATION_WARNING: Heads up! `ignite.removeScreenExamples` is deprecated. Please use `ignite.removePluginScreenExamples` instead.',
+    )
     ignite.removePluginScreenExamples(files)
   }
 

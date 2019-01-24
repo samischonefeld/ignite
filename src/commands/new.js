@@ -13,7 +13,7 @@ const { forEach, keys, reduce, concat, trim, isEmpty, match, not, toLower } = re
  *
  * @param {any} context - The gluegun context.
  */
-async function command (context) {
+async function command(context) {
   const { parameters, strings, print, system, filesystem, ignite, prompt } = context
   const { isBlank, upperFirst, camelCase } = strings
   const { log } = ignite
@@ -41,7 +41,9 @@ async function command (context) {
 
   // prevent installing when node_modules/react-native exists
   if (filesystem.exists('node_modules/react-native')) {
-    context.print.error('The `ignite new` command cannot be run within a directory with `node_modules/react-native` installed.')
+    context.print.error(
+      'The `ignite new` command cannot be run within a directory with `node_modules/react-native` installed.',
+    )
     context.print.error('Try installing from a directory without a `node_modules` directory.')
     process.exit(exitCodes.EXISTING_REACT_NATIVE)
   }
@@ -73,16 +75,20 @@ async function command (context) {
 
   // verify the project name is valid
   if (!isValidName) {
-    print.error(`The project name can only contain alphanumeric characters and underscore, but must not begin with a number.`)
+    print.error(
+      `The project name can only contain alphanumeric characters and underscore, but must not begin with a number.`,
+    )
     process.exit(exitCodes.PROJECT_NAME)
   }
 
   // verify the directory doesn't exist already
   if (filesystem.exists(projectName) === 'dir') {
     print.error(`Directory ${projectName} already exists.`)
-    const askOverwrite = async () => { return prompt.confirm('Do you want to overwrite this directory?') }
+    const askOverwrite = async () => {
+      return prompt.confirm('Do you want to overwrite this directory?')
+    }
 
-    if (parameters.options.overwrite || await askOverwrite()) {
+    if (parameters.options.overwrite || (await askOverwrite())) {
       print.info(`Overwriting ${projectName}...`)
       filesystem.remove(projectName)
     } else {
@@ -118,11 +124,8 @@ async function command (context) {
         name: 'boilerplate',
         message: 'Which boilerplate would you like to use?',
         type: 'list',
-        choices: [
-          andross,
-          bowser
-        ]
-      }
+        choices: [andross, bowser],
+      },
     ])
     switch (boilerplate) {
       case bowser:
@@ -147,17 +150,19 @@ async function command (context) {
     name: 'ignite-shim',
     description: 'A temporary package.json created to prevent node from wandering too far.',
     repository: 'infinitered/ignite',
-    license: 'MIT'
+    license: 'MIT',
   })
 
   // pick the inbound cli options
   const cliOpts = parameters.options
 
   // turn this back into a string
-  const forwardingOptions = trim(reduce((src, k) => {
-    const v = cliOpts[k]
-    return concat(v === true ? `--${k} ` : `--${k} ${v} `, src)
-  })('', keys(cliOpts)))
+  const forwardingOptions = trim(
+    reduce((src, k) => {
+      const v = cliOpts[k]
+      return concat(v === true ? `--${k} ` : `--${k} ${v} `, src)
+    })('', keys(cliOpts)),
+  )
 
   // let's kick off the template
   let ok = false
@@ -182,10 +187,7 @@ async function command (context) {
   if (ok) {
     log(`moving contents of ${projectName} into place`)
     // move everything that's 1 deep back up to here
-    forEach(
-      filename => filesystem.move(path.join(projectName, filename), filename)
-      , filesystem.list(projectName) || []
-    )
+    forEach(filename => filesystem.move(path.join(projectName, filename), filename), filesystem.list(projectName) || [])
     log(`removing unused sub directory ${projectName}`)
     filesystem.remove(projectName)
   }

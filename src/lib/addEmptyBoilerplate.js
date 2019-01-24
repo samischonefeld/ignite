@@ -1,4 +1,4 @@
-module.exports = async function (context) {
+module.exports = async function(context) {
   const { filesystem, parameters, ignite, print, reactNative } = context
   const name = parameters.second
   const spinner = print.spin(`skipping boilerplate`).succeed()
@@ -9,9 +9,9 @@ module.exports = async function (context) {
 
   // ignite/ignite.json
   const igniteJson = {
-    'createdWith': ignite.version,
-    'boilerplate': 'empty',
-    'examples': 'none'
+    createdWith: ignite.version,
+    boilerplate: 'empty',
+    examples: 'none',
   }
   filesystem.write(`ignite/ignite.json`, igniteJson)
   spinner.stop()

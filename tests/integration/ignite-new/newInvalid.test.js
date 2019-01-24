@@ -34,7 +34,7 @@ test(`doesn't allow kebab-case`, async done => {
 test(`doesn't allow 'ignite'`, async done => {
   const result = await system.spawn(IGNITE + ' new ignite')
   expect(result.stdout.toString()).toBe(
-    'Hey...that\'s my name! Please name your project something other than \'ignite\'.\n'
+    "Hey...that's my name! Please name your project something other than 'ignite'.\n",
   )
   expect(result.status).toBe(5)
   done()
@@ -51,7 +51,10 @@ test('project name starting with a number', async done => {
   const result = await system.spawn(IGNITE + ' new 1foo')
   expect(result.status).toBe(5)
   expect(
-    contains('The project name can only contain alphanumeric characters and underscore, but must not begin with a number.', result.stdout.toString())
+    contains(
+      'The project name can only contain alphanumeric characters and underscore, but must not begin with a number.',
+      result.stdout.toString(),
+    ),
   ).toBe(true)
   done()
 })

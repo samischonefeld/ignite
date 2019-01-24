@@ -9,10 +9,8 @@ module.exports = (plugin, command, context) => {
    *
    * @return {Object} The configuration.
    */
-  function loadIgniteConfig () {
-    return filesystem.exists(igniteConfigFilename)
-      ? filesystem.read(igniteConfigFilename, 'json') || {}
-      : {}
+  function loadIgniteConfig() {
+    return filesystem.exists(igniteConfigFilename) ? filesystem.read(igniteConfigFilename, 'json') || {} : {}
   }
 
   /**
@@ -20,7 +18,7 @@ module.exports = (plugin, command, context) => {
    *
    * @param {Object} config The new configuration object to save.
    */
-  function saveIgniteConfig (config = {}) {
+  function saveIgniteConfig(config = {}) {
     filesystem.write(igniteConfigFilename, config, { jsonIndent: 2 })
   }
 
@@ -30,7 +28,7 @@ module.exports = (plugin, command, context) => {
    * @param {string} key Key of setting to be defined
    * @param {string} value Value to be set
    */
-  function setIgniteConfig (key, value, isVariableName = false) {
+  function setIgniteConfig(key, value, isVariableName = false) {
     const igniteConfig = loadIgniteConfig()
     igniteConfig[key] = value
     saveIgniteConfig(igniteConfig)
@@ -41,7 +39,7 @@ module.exports = (plugin, command, context) => {
    *
    * @param {string}  key Key of setting to be removed
    */
-  function removeIgniteConfig (key) {
+  function removeIgniteConfig(key) {
     const igniteConfig = dissoc(key, loadIgniteConfig())
     saveIgniteConfig(igniteConfig)
   }
@@ -50,6 +48,6 @@ module.exports = (plugin, command, context) => {
     setIgniteConfig,
     removeIgniteConfig,
     saveIgniteConfig,
-    loadIgniteConfig
+    loadIgniteConfig,
   }
 }

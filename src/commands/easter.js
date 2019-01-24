@@ -3,8 +3,8 @@
 // @cliHidden true
 // ----------------------------------------------------------------------------
 
-module.exports = async function (context) {
-  const {parameters, print} = context
+module.exports = async function(context) {
+  const { parameters, print } = context
   if (parameters.rawCommand.toLowerCase() === 'src love you') {
     const heart = `
         @@@@@@           @@@@@@

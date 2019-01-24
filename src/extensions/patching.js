@@ -10,7 +10,7 @@ const fs = require('fs')
  * @param  {RunContext} context The running context.
  * @return {Function}           A function to attach to the context.
  */
-function attach (plugin, command, context) {
+function attach(plugin, command, context) {
   /**
    * Inserts a given bit of content to a given file at a matched location
    *
@@ -88,7 +88,7 @@ function attach (plugin, command, context) {
     prependToFile,
     insertInFile,
     replaceInFile,
-    isInFile
+    isInFile,
   }
 }
 

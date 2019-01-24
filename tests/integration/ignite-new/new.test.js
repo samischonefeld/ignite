@@ -31,7 +31,6 @@ test('spins up a min app and performs various checks', async done => {
   expect(typeof igniteJSON).toBe('string')
   expect(igniteJSON).toMatch(/"generators": {/)
 
-
   // check the Containers/App.js file
   const appJS = filesystem.read(`${process.cwd()}/App/Containers/App.js`)
   expect(appJS).toMatch(/class App extends Component {/)

@@ -15,7 +15,7 @@ module.exports = (plugin, command, context) => {
    *   {title: 'Section Example', screen: 'Section.js', ancillary: ['file']},
    * ])
    */
-  async function addPluginScreenExamples (files, props = {}) {
+  async function addPluginScreenExamples(files, props = {}) {
     const { filesystem, ignite, print, template } = context
     const { ignitePluginPath } = ignite
 
@@ -35,76 +35,70 @@ module.exports = (plugin, command, context) => {
           return flatten(acc)
         },
         [],
-        files
+        files,
       )
 
       // generate stamped copy of all template files
-      const templatePath = ignitePluginPath()
-        ? `${ignitePluginPath()}/templates`
-        : `templates`
-      map(
-        fileName => {
-          let templateFile
-          if (fileName.endsWith('.ejs')) {
-            templateFile = fileName
-          } else {
-            print.warning(`DEPRECATION WARNING: addPluginScreenExample called with '${fileName}' and no .ejs extension. Add .ejs to your template filename when calling this function.`)
-            templateFile = `${fileName}.ejs`
-          }
+      const templatePath = ignitePluginPath() ? `${ignitePluginPath()}/templates` : `templates`
+      map(fileName => {
+        let templateFile
+        if (fileName.endsWith('.ejs')) {
+          templateFile = fileName
+        } else {
+          print.warning(
+            `DEPRECATION WARNING: addPluginScreenExample called with '${fileName}' and no .ejs extension. Add .ejs to your template filename when calling this function.`,
+          )
+          templateFile = `${fileName}.ejs`
+        }
 
-          const fileNameNoExt = path.basename(templateFile, '.ejs')
+        const fileNameNoExt = path.basename(templateFile, '.ejs')
 
-          template.generate({
-            directory: templatePath,
-            template: templateFile,
-            target: `ignite/Examples/Containers/${pluginName}/${fileNameNoExt}`,
-            props
-          })
-        },
-        allFiles
-      )
+        template.generate({
+          directory: templatePath,
+          template: templateFile,
+          target: `ignite/Examples/Containers/${pluginName}/${fileNameNoExt}`,
+          props,
+        })
+      }, allFiles)
 
       // insert screen, route, and buttons in PluginExamples (if exists)
       const destinationPath = `${process.cwd()}/ignite/DevScreens/PluginExamplesScreen.js`
-      map(
-        file => {
-          // turn things like "examples/This File-Example.js" into "ThisFileExample"
-          // for decent component names
-          // TODO: check for collisions in the future
-          const exampleFileName = takeLast(1, split(path.sep, file.screen))[0]
-          const componentName = replace(/.js|\s|-/g, '', exampleFileName)
+      map(file => {
+        // turn things like "examples/This File-Example.js" into "ThisFileExample"
+        // for decent component names
+        // TODO: check for collisions in the future
+        const exampleFileName = takeLast(1, split(path.sep, file.screen))[0]
+        const componentName = replace(/.js|\s|-/g, '', exampleFileName)
 
-          if (filesystem.exists(destinationPath)) {
-            // make sure we have RoundedButton
-            ignite.patchInFile(destinationPath, {
-              insert: `import RoundedButton from '../../App/Components/RoundedButton'`,
-              after: 'import ExamplesRegistry'
-            })
+        if (filesystem.exists(destinationPath)) {
+          // make sure we have RoundedButton
+          ignite.patchInFile(destinationPath, {
+            insert: `import RoundedButton from '../../App/Components/RoundedButton'`,
+            after: 'import ExamplesRegistry',
+          })
 
-            // insert screen import
-            ignite.patchInFile(destinationPath, {
-              after: 'import ExamplesRegistry',
-              insert: `import ${componentName} from '../Examples/Containers/${pluginName}/${file.screen}'`
-            })
+          // insert screen import
+          ignite.patchInFile(destinationPath, {
+            after: 'import ExamplesRegistry',
+            insert: `import ${componentName} from '../Examples/Containers/${pluginName}/${file.screen}'`,
+          })
 
-            // insert screen route
-            ignite.patchInFile(destinationPath, {
-              insert: `  ${componentName}: {screen: ${componentName}, navigationOptions: {header: {visible: true}}},`,
-              before: 'screen: PluginExamplesScreen'
-            })
+          // insert screen route
+          ignite.patchInFile(destinationPath, {
+            insert: `  ${componentName}: {screen: ${componentName}, navigationOptions: {header: {visible: true}}},`,
+            before: 'screen: PluginExamplesScreen',
+          })
 
-            // insert launch button
-            ignite.patchInFile(destinationPath, {
-              after: 'styles.screenButtons',
-              insert: `
+          // insert launch button
+          ignite.patchInFile(destinationPath, {
+            after: 'styles.screenButtons',
+            insert: `
             <RoundedButton onPress={() => this.props.navigation.navigate('${componentName}')}>
               ${file.title}
-            </RoundedButton>`
-            })
-          } // if
-        },
-        files
-      )
+            </RoundedButton>`,
+          })
+        } // if
+      }, files)
 
       spinner.stop()
     }

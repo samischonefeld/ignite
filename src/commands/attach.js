@@ -2,7 +2,7 @@
 
 const isIgniteDirectory = require('../lib/isIgniteDirectory')
 
-module.exports = async function (context) {
+module.exports = async function(context) {
   const { filesystem, ignite, print } = context
 
   // ensure we're in a supported directory
@@ -13,9 +13,9 @@ module.exports = async function (context) {
 
   // ignite/ignite.json
   const igniteJson = {
-    'createdWith': ignite.version,
-    'boilerplate': 'empty',
-    'examples': 'none'
+    createdWith: ignite.version,
+    boilerplate: 'empty',
+    examples: 'none',
   }
   filesystem.write('ignite/ignite.json', igniteJson)
 

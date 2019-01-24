@@ -27,7 +27,7 @@ const buildIgnite = () => {
  * @param  {array} argv An array of command line arguments.
  * @return {RunContext} The gluegun RunContext
  */
-module.exports = async function run (argv) {
+module.exports = async function run(argv) {
   // create a runtime
   let runtime
   try {

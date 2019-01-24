@@ -7,7 +7,7 @@ module.exports = (plugin, command, context) => {
    *
    * @param {string} key - Permission name to be removed e.g. `ACCESS_NETWORK_STATE`
    */
-  function removeAndroidPermission (key) {
+  function removeAndroidPermission(key) {
     const { filesystem, patching, print, ignite } = context
     const permissionString = `<uses-permission android:name="android.permission.${key.toUpperCase()}" />`
     const manifestFile = `${APP_PATH}/android/app/src/main/AndroidManifest.xml`
@@ -19,7 +19,7 @@ module.exports = (plugin, command, context) => {
     } else if (patching.isInFile(manifestFile, permissionString)) {
       // Remove permission from AndroidManifest
       ignite.patchInFile(manifestFile, {
-        delete: permissionString
+        delete: permissionString,
       })
     }
   }

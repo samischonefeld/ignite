@@ -18,6 +18,6 @@ module.exports = (plugin, command, context) => {
     prepend(overrideDir),
     without(['', null]),
     uniq,
-    filter(jetpack.exists)
+    filter(jetpack.exists),
   )(envDir)
 }

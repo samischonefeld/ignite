@@ -11,7 +11,7 @@ var which = require('which')
  *
  * @param {string} raw - The raw text which came from running the version command.
  */
-function defaultVersionMatcher (raw) {
+function defaultVersionMatcher(raw) {
   // sanity check
   if (ramda.isNil(raw) || ramda.isEmpty(raw)) return null
 
@@ -43,7 +43,7 @@ function defaultVersionMatcher (raw) {
  * @param  {function} opts.versionMatcher A way to override the method to discover the version number.
  * @return {boolean}                      `true` if we meet the requirements; otherwise `false`.
  */
-function enforce (opts = {}) {
+function enforce(opts = {}) {
   // opts to pass in
   var optional = opts.optional || false
   var range = opts.range
@@ -58,7 +58,7 @@ function enforce (opts = {}) {
    *
    * @param {string} installedVersion - current version if installed.
    */
-  function printNotMetMessage (installedVersion) {
+  function printNotMetMessage(installedVersion) {
     console.log('Ignite CLI requires ' + packageName + ' ' + range + ' to be installed.')
     if (installedVersion) {
       console.log('')
@@ -73,7 +73,7 @@ function enforce (opts = {}) {
    *
    * @return {string} The version number or null.
    */
-  function getVersion () {
+  function getVersion() {
     // parse the version number
     try {
       // find the executable

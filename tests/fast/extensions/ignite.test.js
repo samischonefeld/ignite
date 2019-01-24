@@ -8,14 +8,14 @@ test('has the right interface', () => {
   const context = {
     print: {},
     parameters: {
-      options: {}
+      options: {},
     },
     system: {
-      which: () => true
+      which: () => true,
     },
     filesystem: {
-      separator: path.sep
-    }
+      separator: path.sep,
+    },
   }
   const extension = attach(plugin, command, context)
 

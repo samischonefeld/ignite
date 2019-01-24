@@ -7,7 +7,7 @@ const fetchPluginRegistry = require('./fetchPluginRegistry')
  *
  * @param {Object} context The gluegun context.
  */
-module.exports = async function (context) {
+module.exports = async function(context) {
   const { print, parameters } = context
   const { colors, newline, info, table, error } = print
   const directory = await fetchPluginRegistry(context)
@@ -15,14 +15,14 @@ module.exports = async function (context) {
 
   const pluginTable = pipe(
     keys,
-    filter((k) => {
+    filter(k => {
       if (!search) return true
       return k.includes(search)
     }),
-    map((k) => {
+    map(k => {
       const plugin = directory[k]
       return [k, plugin.author]
-    })
+    }),
   )(directory)
 
   newline()

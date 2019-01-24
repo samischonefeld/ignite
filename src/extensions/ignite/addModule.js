@@ -26,15 +26,13 @@ module.exports = (plugin, command, context) => {
    * @param {boolean} options.dev - Should we install as a dev-dependency?
    * @param {boolean} options.version - Install a particular version?
    */
-  async function addModule (moduleName, options = {}) {
+  async function addModule(moduleName, options = {}) {
     const { print, system, ignite } = context
     const { useYarn } = ignite
     const moduleFullName = getModuleName(moduleName, options)
 
     const depType = options.dev ? 'as dev dependency' : ''
-    const spinner = print.spin(
-      `▸ installing ${print.colors.cyan(moduleFullName)} ${depType}`
-    )
+    const spinner = print.spin(`▸ installing ${print.colors.cyan(moduleFullName)} ${depType}`)
 
     // install the module
     if (useYarn) {
@@ -56,14 +54,12 @@ module.exports = (plugin, command, context) => {
         spinner.text = `▸ linking`
         spinner.start()
         await system.spawn(`react-native link ${moduleName}`, {
-          stdio: 'ignore'
+          stdio: 'ignore',
         })
         spinner.stop()
       } catch (err) {
         spinner.fail()
-        throw new Error(
-          `Error running: react-native link ${moduleName}.\n${err.stderr}`
-        )
+        throw new Error(`Error running: react-native link ${moduleName}.\n${err.stderr}`)
       }
     }
   }

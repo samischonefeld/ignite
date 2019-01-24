@@ -14,7 +14,7 @@ module.exports = (plugin, command, context) => {
    *   {screen: 'Section.js', ancillary: ['file']},
    * ])
    */
-  async function removePluginScreenExamples (files) {
+  async function removePluginScreenExamples(files) {
     const { filesystem, patching, ignite, print } = context
     const { ignitePluginPath } = ignite
 
@@ -35,53 +35,45 @@ module.exports = (plugin, command, context) => {
           return flatten(acc)
         },
         [],
-        files
+        files,
       )
 
       // delete all files that were inserted
-      map(
-        fileName => {
-          filesystem.removeAsync(
-            `ignite/Examples/Containers/${pluginName}/${fileName}`
-          )
-        },
-        allFiles
-      )
+      map(fileName => {
+        filesystem.removeAsync(`ignite/Examples/Containers/${pluginName}/${fileName}`)
+      }, allFiles)
 
       // delete screen, route, and buttons in PluginExamples (if exists)
       const destinationPath = `${process.cwd()}/ignite/DevScreens/PluginExamplesScreen.js`
-      map(
-        file => {
-          // turn things like "examples/This File-Example.js" into "ThisFileExample"
-          // for decent component names
-          const exampleFileName = takeLast(1, split(path.sep, file.screen))[0]
-          const componentName = replace(/.js|\s|-/g, '', exampleFileName)
+      map(file => {
+        // turn things like "examples/This File-Example.js" into "ThisFileExample"
+        // for decent component names
+        const exampleFileName = takeLast(1, split(path.sep, file.screen))[0]
+        const componentName = replace(/.js|\s|-/g, '', exampleFileName)
 
-          if (filesystem.exists(destinationPath)) {
-            // remove screen import
-            patching.replaceInFile(
-              destinationPath,
-              `import ${componentName} from '../Examples/Containers/${pluginName}/${file.screen}'`,
-              ''
-            )
+        if (filesystem.exists(destinationPath)) {
+          // remove screen import
+          patching.replaceInFile(
+            destinationPath,
+            `import ${componentName} from '../Examples/Containers/${pluginName}/${file.screen}'`,
+            '',
+          )
 
-            // remove screen route
-            patching.replaceInFile(
-              destinationPath,
-              `  ${componentName}: {screen: ${componentName}, navigationOptions: {header: {visible: true}}},`,
-              ''
-            )
+          // remove screen route
+          patching.replaceInFile(
+            destinationPath,
+            `  ${componentName}: {screen: ${componentName}, navigationOptions: {header: {visible: true}}},`,
+            '',
+          )
 
-            // remove launch button
-            patching.replaceInFile(
-              destinationPath,
-              `<RoundedButton.+${componentName}.+[\\s\\S].+\\s*<\\/RoundedButton>`,
-              ''
-            )
-          } // if
-        },
-        files
-      )
+          // remove launch button
+          patching.replaceInFile(
+            destinationPath,
+            `<RoundedButton.+${componentName}.+[\\s\\S].+\\s*<\\/RoundedButton>`,
+            '',
+          )
+        } // if
+      }, files)
 
       spinner.stop()
     }

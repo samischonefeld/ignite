@@ -4,7 +4,7 @@ const { reduce, find } = require('ramda')
 const exitCodes = require('../lib/exitCodes')
 const isIgniteDirectory = require('../lib/isIgniteDirectory')
 
-module.exports = async function (context) {
+module.exports = async function(context) {
   // ensure we're in a supported directory
   if (!isIgniteDirectory(process.cwd())) {
     context.print.error('The `ignite spork` command must be run in an ignite-compatible directory.')
@@ -17,16 +17,20 @@ module.exports = async function (context) {
 
   // ignite spork
   // -> lists all generator plugins (identified in json)
-  const pluginOptions = reduce((a, k) => {
-    const jsonFile = `${k.directory}/ignite.json`
-    if (filesystem.exists(jsonFile)) {
-      const jsonContents = filesystem.read(jsonFile, 'json') || {}
-      if (jsonContents.generators) {
-        a.push(k.name)
+  const pluginOptions = reduce(
+    (a, k) => {
+      const jsonFile = `${k.directory}/ignite.json`
+      if (filesystem.exists(jsonFile)) {
+        const jsonContents = filesystem.read(jsonFile, 'json') || {}
+        if (jsonContents.generators) {
+          a.push(k.name)
+        }
       }
-    }
-    return a
-  }, [], context.ignite.findIgnitePlugins())
+      return a
+    },
+    [],
+    context.ignite.findIgnitePlugins(),
+  )
 
   let selectedPlugin = ''
   if (pluginOptions.length === 0) {
@@ -39,7 +43,7 @@ module.exports = async function (context) {
       name: 'selectedPlugin',
       message: 'Which plugin will you be sporking templates from?',
       type: 'list',
-      choices: pluginOptions
+      choices: pluginOptions,
     })
     selectedPlugin = answer.selectedPlugin
   }
@@ -51,7 +55,7 @@ module.exports = async function (context) {
   let copyFiles
   if (parameters.second) {
     if (choices.includes(parameters.second)) {
-      copyFiles = { selectedTemplates: [ parameters.second ] }
+      copyFiles = { selectedTemplates: [parameters.second] }
     } else {
       warning(`${parameters.second} is not a recognized generator template.`)
       process.exit(exitCodes.SPORKABLES_NOT_FOUND)
@@ -61,12 +65,12 @@ module.exports = async function (context) {
       name: 'selectedTemplates',
       message: 'Which templates would you like to spork?',
       type: 'checkbox',
-      choices
+      choices,
     })
   }
 
   // TODO: This will be wonky if you're not in root of your project
-  copyFiles.selectedTemplates.map((template) => {
+  copyFiles.selectedTemplates.map(template => {
     const destination = `ignite/Spork/${selectedPlugin}/${template}`
     filesystem.copyAsync(`${directory}/templates/${template}`, destination)
     info(` 🔘 ${destination}`)

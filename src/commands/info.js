@@ -9,7 +9,7 @@ const fetchPluginRegistry = require('../lib/fetchPluginRegistry')
  *
  * @param {Object} context The gluegun context.
  */
-const showPluginInfo = async function (context) {
+const showPluginInfo = async function(context) {
   const { print, parameters } = context
   const { colors, newline, info, table, error } = print
   const directory = await fetchPluginRegistry(context)
@@ -22,12 +22,7 @@ const showPluginInfo = async function (context) {
   newline()
 
   if (plugin) {
-    table([
-      [ 'Name', name ],
-      [ 'Description', plugin.description ],
-      [ 'Author', plugin.author ],
-      [ 'URL', plugin.url ]
-    ])
+    table([['Name', name], ['Description', plugin.description], ['Author', plugin.author], ['URL', plugin.url]])
   } else {
     error('ok')
   }

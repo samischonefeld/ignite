@@ -32,7 +32,7 @@ const pluginOverridesExt = require('./ignite/pluginOverrides')
  *
  * @return {Function} A function to attach to the context.
  */
-function attach (plugin, command, context) {
+function attach(plugin, command, context) {
   const { parameters } = context
 
   // determine which package manager to use
@@ -42,18 +42,14 @@ function attach (plugin, command, context) {
   const useYarn = !forceNpm && Boolean(shell.which('yarn'))
 
   // the ignite plugin path
-  const {
-    ignitePluginPath,
-    setIgnitePluginPath
-  } = ignitePluginPathExt(plugin, command, context)
+  const { ignitePluginPath, setIgnitePluginPath } = ignitePluginPathExt(plugin, command, context)
 
   // a 4-pack of ignite config
-  const {
-    loadIgniteConfig,
-    saveIgniteConfig,
-    setIgniteConfig,
-    removeIgniteConfig
-  } = igniteConfigExt(plugin, command, context)
+  const { loadIgniteConfig, saveIgniteConfig, setIgniteConfig, removeIgniteConfig } = igniteConfigExt(
+    plugin,
+    command,
+    context,
+  )
 
   // here's the extension's abilities
   return {
@@ -84,7 +80,7 @@ function attach (plugin, command, context) {
     generate: generateExt(plugin, command, context),
     log: logExt(plugin, command, context),
     version: versionExt(plugin, command, context),
-    pluginOverrides: pluginOverridesExt(plugin, command, context)
+    pluginOverrides: pluginOverridesExt(plugin, command, context),
   }
 }
 

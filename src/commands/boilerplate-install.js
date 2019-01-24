@@ -24,7 +24,7 @@ const exitCodes = require('../lib/exitCodes')
  *
  * @param {any} context - The gluegun context.
  */
-async function installBoilerplate (context) {
+async function installBoilerplate(context) {
   const { print, ignite, filesystem } = context
 
   ignite.log('running boilerplate-install command')

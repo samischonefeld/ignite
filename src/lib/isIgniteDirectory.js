@@ -5,7 +5,7 @@ const jetpack = require('fs-jetpack')
  *
  * @return true or false
  */
-function isIgniteDirectory (directory) {
+function isIgniteDirectory(directory) {
   // read the ignite config
   const igniteConfigPath = `${directory}/ignite/ignite.json`
 

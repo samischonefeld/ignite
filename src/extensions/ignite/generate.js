@@ -9,7 +9,7 @@ module.exports = (plugin, command, context) => {
    * @param  {{}} opts Generation options.
    * @return {string}  The generated string.
    */
-  async function generate (opts = {}) {
+  async function generate(opts = {}) {
     // checked for a sporked version
     const sporkDirectory = `${filesystem.cwd()}/ignite/Spork/${context.plugin.name}`
     const isSporked = filesystem.exists(`${sporkDirectory}/${opts.template}`)

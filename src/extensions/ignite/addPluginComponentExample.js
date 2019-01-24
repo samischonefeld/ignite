@@ -7,7 +7,7 @@ module.exports = (plugin, command, context) => {
    * @param {string} fileName - The js file to create. (.ejs will be appended to pick up the template.)
    * @param {Object} props - The properties to use for template expansion.
    */
-  async function addPluginComponentExample (fileName, props = {}) {
+  async function addPluginComponentExample(fileName, props = {}) {
     const { filesystem, ignite, print, template } = context
     const { ignitePluginPath } = ignite
     const config = ignite.loadIgniteConfig()
@@ -16,7 +16,9 @@ module.exports = (plugin, command, context) => {
     if (fileName.endsWith('.ejs')) {
       templateFile = fileName
     } else {
-      print.warning(`DEPRECATION WARNING: addPluginComponentExample called with '${fileName}' and no .ejs extension. Add .ejs to your template filename when calling this function.`)
+      print.warning(
+        `DEPRECATION WARNING: addPluginComponentExample called with '${fileName}' and no .ejs extension. Add .ejs to your template filename when calling this function.`,
+      )
       templateFile = `${fileName}.ejs`
     }
 
@@ -27,14 +29,12 @@ module.exports = (plugin, command, context) => {
       const spinner = print.spin(`▸ adding component example`)
 
       // generate the file
-      const templatePath = ignitePluginPath()
-        ? `${ignitePluginPath()}/templates`
-        : `templates`
+      const templatePath = ignitePluginPath() ? `${ignitePluginPath()}/templates` : `templates`
       template.generate({
         directory: templatePath,
         template: templateFile,
         target: `ignite/Examples/Components/${fileNameNoExt}`,
-        props
+        props,
       })
 
       // adds reference to usage example screen (if it exists)
@@ -42,7 +42,7 @@ module.exports = (plugin, command, context) => {
       if (filesystem.exists(destinationPath)) {
         ignite.patchInFile(destinationPath, {
           after: 'import ExamplesRegistry',
-          insert: `import '../Examples/Components/${fileNameNoExt}'`
+          insert: `import '../Examples/Components/${fileNameNoExt}'`,
         })
       }
       spinner.stop()

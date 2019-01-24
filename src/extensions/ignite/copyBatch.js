@@ -1,5 +1,5 @@
 module.exports = (plugin, command, context) => {
-  function findSpork (context, template) {
+  function findSpork(context, template) {
     // console.dir(context, {colors: true, depth: 1})
     const { filesystem } = context
     const sporkDirectory = `${filesystem.cwd()}/ignite/Spork/${context.plugin.name}`
@@ -17,7 +17,7 @@ module.exports = (plugin, command, context) => {
    * @param {bool}  opts.quiet     - don't write anything (optional)
    * @param {bool}  opts.directory - the directory to use as the template source (optional)
    */
-  async function copyBatch (context, jobs, props, opts = {}) {
+  async function copyBatch(context, jobs, props, opts = {}) {
     // grab some features
     const { template, prompt, filesystem, ignite, print } = context
     const { confirm } = prompt
@@ -53,7 +53,7 @@ module.exports = (plugin, command, context) => {
           directory: directory || sporkDirectory || (currentPluginPath && `${currentPluginPath}/templates`),
           template: job.template,
           target: job.target,
-          props
+          props,
         })
         if (!quiet) {
           print.info(`${print.checkmark} ${job.target}`)

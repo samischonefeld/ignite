@@ -8,7 +8,7 @@ module.exports = (plugin, command, context) => {
    * @param {string} value - Value to be set
    * @param {bool} isVariableName[false] - flag to set value as variable name instead of string
    */
-  function setDebugConfig (key, value, isVariableName = false) {
+  function setDebugConfig(key, value, isVariableName = false) {
     const { filesystem, patching, ignite, print } = context
     const debugConfig = `${process.cwd()}/App/Config/DebugConfig.js`
 
@@ -28,12 +28,12 @@ module.exports = (plugin, command, context) => {
       if (isVariableName) {
         ignite.patchInFile(debugConfig, {
           after: 'export default {',
-          insert: `  ${key}: ${value},`
+          insert: `  ${key}: ${value},`,
         })
       } else {
         ignite.patchInFile(debugConfig, {
           after: 'export default {',
-          insert: `  ${key}: '${value}',`
+          insert: `  ${key}: '${value}',`,
         })
       }
     }

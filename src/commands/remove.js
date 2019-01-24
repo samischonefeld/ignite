@@ -14,34 +14,40 @@ const path = require('path')
 const useYarn = false
 
 const detectRemovals = (configObject, moduleName) => {
-  return reduce((acc, k) => {
-    if (configObject[k] === moduleName) {
-      return concat([`${k}`], acc)
-    }
-    return acc
-  }, [], keys(configObject))
+  return reduce(
+    (acc, k) => {
+      if (configObject[k] === moduleName) {
+        return concat([`${k}`], acc)
+      }
+      return acc
+    },
+    [],
+    keys(configObject),
+  )
 }
 
-const existsLocally = (moduleName) => {
+const existsLocally = moduleName => {
   // we take a look at the local package.json
   const pack = require(`${process.cwd()}/package.json`)
   return pathOr(null, ['devDependencies', moduleName], pack)
 }
 
-const removeDependency = (moduleName) => {
+const removeDependency = moduleName => {
   console.warn('Removing dev module')
 
   if (useYarn) {
-    Shell.exec(`yarn remove ${moduleName}`, {silent: true})
+    Shell.exec(`yarn remove ${moduleName}`, { silent: true })
   } else {
-    Shell.exec(`npm rm ${moduleName} --save-dev`, {silent: true})
+    Shell.exec(`npm rm ${moduleName} --save-dev`, { silent: true })
   }
 }
 
-module.exports = async function (context) {
+module.exports = async function(context) {
   // ensure we're in a supported directory
   if (!isIgniteDirectory(process.cwd())) {
-    context.print.error('The `ignite remove` command must be run in an ignite-compatible directory.\nUse `ignite attach` to make compatible.')
+    context.print.error(
+      'The `ignite remove` command must be run in an ignite-compatible directory.\nUse `ignite attach` to make compatible.',
+    )
     process.exit(exitCodes.NOT_IGNITE_PROJECT)
   }
 
@@ -88,7 +94,7 @@ module.exports = async function (context) {
 
       if (ok) {
         const generatorsList = Object.assign({}, config.generators)
-        map((k) => delete generatorsList[k], changes)
+        map(k => delete generatorsList[k], changes)
         const updatedConfig = assoc('generators', generatorsList, config)
         ignite.saveIgniteConfig(updatedConfig)
       } else {

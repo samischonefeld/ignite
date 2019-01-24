@@ -1,2 +1,1 @@
-module.exports = (plugin, command, context) =>
-  require('../../../package.json').version
+module.exports = (plugin, command, context) => require('../../../package.json').version

@@ -28,12 +28,12 @@ const removeIgnitePlugin = async (moduleName, context) => {
   }
 }
 
-module.exports = async function (context) {
+module.exports = async function(context) {
   // grab a fist-full of features...
   const { print, filesystem, prompt, ignite, parameters, strings } = context
   const { log } = ignite
 
-  const perfStart = (new Date()).getTime()
+  const perfStart = new Date().getTime()
 
   log('running add command')
   const config = ignite.loadIgniteConfig()
@@ -41,7 +41,9 @@ module.exports = async function (context) {
 
   // ensure we're in a supported directory
   if (!isIgniteDirectory(process.cwd())) {
-    context.print.error('The `ignite add` command must be run in an ignite-compatible directory.\nUse `ignite attach` to make compatible.')
+    context.print.error(
+      'The `ignite add` command must be run in an ignite-compatible directory.\nUse `ignite attach` to make compatible.',
+    )
     process.exit(exitCodes.NOT_IGNITE_PROJECT)
   }
 
@@ -78,23 +80,25 @@ Examples:
 
   // optionally load some configuration from the ignite.json from the plugin.
   const ignitePluginConfigPath = `${modulePath}/ignite.json`
-  const newConfig = filesystem.exists(ignitePluginConfigPath)
-    ? filesystem.read(ignitePluginConfigPath, 'json')
-    : {}
+  const newConfig = filesystem.exists(ignitePluginConfigPath) ? filesystem.read(ignitePluginConfigPath, 'json') : {}
 
-  const proposedGenerators = R.reduce((acc, k) => {
-    acc[k] = moduleName
-    return acc
-  }, {}, newConfig.generators || [])
+  const proposedGenerators = R.reduce(
+    (acc, k) => {
+      acc[k] = moduleName
+      return acc
+    },
+    {},
+    newConfig.generators || [],
+  )
 
   // we compare the generator config changes against ours
   const changes = detectedChanges(currentGenerators, proposedGenerators)
   if (changes.length > 0) {
     spinner.stop()
-      // we warn the user on changes
+    // we warn the user on changes
     print.warning(`🔥  The following generators would be changed: ${R.join(', ', changes)}`)
     const ok = await prompt.confirm('You ok with that?')
-      // if they refuse, then npm/yarn uninstall
+    // if they refuse, then npm/yarn uninstall
     if (!ok) {
       await removeIgnitePlugin(moduleName, context)
       process.exit(exitCodes.OK)
@@ -132,7 +136,7 @@ Examples:
         log(`running add() on ignite plugin`)
         await pluginModule.add(context)
 
-        const perfDuration = parseInt(((new Date()).getTime() - perfStart) / 10) / 100
+        const perfDuration = parseInt((new Date().getTime() - perfStart) / 10) / 100
 
         spinner.text = `added ${print.colors.cyan(moduleName)} in ${perfDuration}s`
         spinner.start()

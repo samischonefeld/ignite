@@ -7,7 +7,7 @@ module.exports = (plugin, command, context) => {
    * @param {boolean} options.unlink - Should we unlink?
    * @param {boolean} options.dev - is this a dev dependency?
    */
-  async function removeModule (moduleName, options = {}) {
+  async function removeModule(moduleName, options = {}) {
     const { print, system, ignite } = context
     const { useYarn } = ignite
 
@@ -17,7 +17,7 @@ module.exports = (plugin, command, context) => {
     if (options.unlink) {
       print.info(`    ${print.checkmark} unlinking`)
       await system.spawn(`react-native unlink ${moduleName}`, {
-        stdio: 'ignore'
+        stdio: 'ignore',
       })
     }
 

@@ -8,13 +8,13 @@ const exitCodes = require('../lib/exitCodes')
  * @param {Object} opts            The options used to install
  * @param {string} opts.moduleName The module to install
  */
-async function importPlugin (context, opts) {
+async function importPlugin(context, opts) {
   const { moduleName, version, type, directory } = opts
   const { ignite, system, filesystem } = context
   const { log } = ignite
   const isDirectory = type === 'directory'
   const target = isDirectory ? directory : moduleName
-  const packageVersion = (version && !isDirectory) ? `@${version}` : ''
+  const packageVersion = version && !isDirectory ? `@${version}` : ''
 
   // check to see if it exists first
   if (type === 'npm') {
@@ -37,28 +37,21 @@ async function importPlugin (context, opts) {
       const rawCacheDir = await system.exec('yarn cache dir')
 
       // look for a cached version of this
-      const dirs = filesystem
-        .cwd(rawCacheDir)
-        .find({
-          matching: `npm-${moduleName}-*`,
-          directories: true,
-          recursive: false
-        })
+      const dirs = filesystem.cwd(rawCacheDir).find({
+        matching: `npm-${moduleName}-*`,
+        directories: true,
+        recursive: false,
+      })
 
       // clear existing cache if we have one
       if (!isEmpty(dirs)) {
-        forEach(
-          dir => {
-            log(`removing yarn cache ${rawCacheDir}/${dir}`)
-            filesystem.remove(`${rawCacheDir}/${dir}`)
-          },
-          dirs
-        )
+        forEach(dir => {
+          log(`removing yarn cache ${rawCacheDir}/${dir}`)
+          filesystem.remove(`${rawCacheDir}/${dir}`)
+        }, dirs)
       }
     }
-    const cmd = isDirectory
-      ? `yarn add file:${target} --force --dev`
-      : `yarn add ${target}${packageVersion} --dev`
+    const cmd = isDirectory ? `yarn add file:${target} --force --dev` : `yarn add ${target}${packageVersion} --dev`
     log(cmd)
     await system.run(cmd)
     log('finished yarn command')
@@ -79,7 +72,7 @@ async function importPlugin (context, opts) {
  * @param {any} specs   - The specs of the module to import (sourced from detectInstall)
  * @returns An error code or null.
  */
-async function safelyImportPlugin (context, specs) {
+async function safelyImportPlugin(context, specs) {
   const { moduleName } = specs
   const { print, ignite } = context
   const spinner = print.spin(`adding ${print.colors.cyan(moduleName)}`)
@@ -89,30 +82,16 @@ async function safelyImportPlugin (context, specs) {
       await importPlugin(context, specs)
     } catch (e) {
       if (e.unavailable) {
-        spinner.fail(
-          `${print.colors.bold(moduleName)} is not available on npm.`
-        )
+        spinner.fail(`${print.colors.bold(moduleName)} is not available on npm.`)
         print.info('')
-        print.info(
-          print.colors.muted(
-            '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
-          )
-        )
+        print.info(print.colors.muted('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'))
         print.error('  We also searched in these directories:\n')
         ignite.pluginOverrides.forEach(dir => {
           print.info(`    ▸ ${dir}`)
         })
-        print.info(
-          print.colors.muted(
-            '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
-          )
-        )
+        print.info(print.colors.muted('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'))
       } else {
-        spinner.fail(
-          `${print.colors.red(
-            moduleName
-          )} was not able to be installed. Is it a valid NPM module?`
-        )
+        spinner.fail(`${print.colors.red(moduleName)} was not able to be installed. Is it a valid NPM module?`)
         print.error('----------')
         print.error(e.message)
         print.error('----------')

@@ -6,13 +6,13 @@ const os = require('os')
 const isWindows = process.platform === 'win32'
 const isMac = process.platform === 'darwin'
 
-module.exports = async function (context) {
+module.exports = async function(context) {
   // fistful of features
   const {
     filesystem: { read },
     system: { run, which },
     print: { colors, info, table },
-    strings: { padEnd }
+    strings: { padEnd },
   } = context
 
   // display helpers
@@ -34,23 +34,23 @@ module.exports = async function (context) {
     [column1('platform'), column2(platform)],
     [column1('arch'), column2(arch)],
     [column1('cpu'), column2(cores), column3(cpu)],
-    [column1('directory'), column2(directory)]
+    [column1('directory'), column2(directory)],
   ])
 
   // -=-=-=- javascript -=-=-=-
   const nodePath = which('node')
   const nodeVersion = replace('v', '', await run('node --version', { trim: true }))
   const npmPath = which('npm')
-  const npmVersion = npmPath && await run('npm --version', { trim: true })
+  const npmVersion = npmPath && (await run('npm --version', { trim: true }))
   const yarnPath = which('yarn')
-  const yarnVersion = yarnPath && await run('yarn --version', { trim: true })
+  const yarnVersion = yarnPath && (await run('yarn --version', { trim: true }))
 
   info('')
   info(colors.cyan('JavaScript'))
   table([
     [column1('node'), column2(nodeVersion), column3(nodePath)],
     [column1('npm'), column2(npmVersion), column3(npmPath)],
-    [column1('yarn'), column2(yarnVersion), column3(yarnPath)]
+    [column1('yarn'), column2(yarnVersion), column3(yarnPath)],
   ])
 
   // -=-=-=- react native -=-=-=-
@@ -93,7 +93,7 @@ module.exports = async function (context) {
   info(colors.cyan('Android'))
   table([
     [column1('java'), column2(javaVersion), column3(javaPath)],
-    [column1('android home'), column2('-'), column3(androidPath)]
+    [column1('android home'), column2('-'), column3(androidPath)],
   ])
 
   // -=-=-=- iOS -=-=-=-
@@ -103,9 +103,7 @@ module.exports = async function (context) {
 
     info('')
     info(colors.cyan('iOS'))
-    table([
-      [column1('xcode'), column2(xcodeVersion)]
-    ])
+    table([[column1('xcode'), column2(xcodeVersion)]])
   }
 
   // -=-=-=- windows -=-=-=-

@@ -18,7 +18,7 @@ module.exports = (plugin, command, context) => {
    *   patchInFile('thing.js', { before: 'bar', insert: 'foo' })
    *
    */
-  function patchInFile (file, opts) {
+  function patchInFile(file, opts) {
     const { patching } = context
 
     const data = jetpack.read(file, 'utf8')
@@ -41,12 +41,7 @@ module.exports = (plugin, command, context) => {
       }
     } else {
       // Insert before/after a particular string
-      patching.insertInFile(
-        file,
-        opts.before || opts.after,
-        newString,
-        !!opts.after
-      )
+      patching.insertInFile(file, opts.before || opts.after, newString, !!opts.after)
     }
   }
 

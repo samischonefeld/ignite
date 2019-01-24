@@ -1,9 +1,9 @@
 const { print } = require('gluegun')
 
-module.exports = function () {
+module.exports = function() {
   const {
     info,
-    colors: { red, yellow }
+    colors: { red, yellow },
   } = print
 
   info('-----------------------------------------------')

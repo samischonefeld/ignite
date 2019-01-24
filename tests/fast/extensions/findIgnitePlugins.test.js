@@ -12,8 +12,8 @@ test('plugin-less', () => {
   const context = {
     filesystem: { separator: path.sep },
     runtime: {
-      plugins: []
-    }
+      plugins: [],
+    },
   }
   const findIgnitePlugin = extension(null, null, context)
   expect(findIgnitePlugin()).toEqual([])
@@ -23,8 +23,8 @@ test('skips non-ignite plugins', () => {
   const context = {
     filesystem: { separator: path.sep },
     runtime: {
-      plugins: [{ name: 'x', directory: 'y' }]
-    }
+      plugins: [{ name: 'x', directory: 'y' }],
+    },
   }
   const findIgnitePlugin = extension(null, null, context)
   expect(findIgnitePlugin()).toEqual([])
@@ -34,8 +34,8 @@ test('finds ignite- prefixed plugins', () => {
   const context = {
     filesystem: { separator: path.sep },
     runtime: {
-      plugins: [{ name: 'ignite-foo', directory: 'y' }]
-    }
+      plugins: [{ name: 'ignite-foo', directory: 'y' }],
+    },
   }
   const findIgnitePlugin = extension(null, null, context)
   expect(findIgnitePlugin()).toEqual([{ name: 'ignite-foo', directory: 'y' }])
@@ -46,8 +46,8 @@ test('finds project plugins', () => {
   const context = {
     filesystem: { separator: path.sep },
     runtime: {
-      plugins: [{ name: 'x', directory: dir }]
-    }
+      plugins: [{ name: 'x', directory: dir }],
+    },
   }
   const findIgnitePlugin = extension(null, null, context)
   expect(findIgnitePlugin()).toEqual([{ name: 'x', directory: dir }])
