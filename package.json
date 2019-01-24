@@ -7,7 +7,7 @@
   },
   "preferGlobal": true,
   "scripts": {
-    "format": "prettier --write \"{**/*.ts,.circleci/**/*.js}\" --loglevel error && tslint -p . --fix",
+    "format": "prettier --write \"{**/*.ts,**/*.js,.circleci/**/*.js}\" --loglevel error && tslint -p . --fix",
     "test": "jest tests/fast",
     "watch": "jest tests/fast --watch",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
