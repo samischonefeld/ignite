@@ -4,7 +4,7 @@
 import isIgniteDirectory from '../lib/isIgniteDirectory'
 import exitCodes from '../lib/exitCodes'
 import * as path from 'path'
-import addEmptyBoilerplate from '../lib/addEmptyBoilerplate'
+import addEmptyBoilerplate from '../lib/add-empty-boilerplate'
 import { forEach, keys, reduce, concat, trim, isEmpty, match, not, toLower } from 'ramda'
 
 /**
@@ -104,7 +104,7 @@ async function command(context) {
   // NOTE(steve): this expression is intentionally evaluating against false because of
   // --no-boilerplate and how minimist works.
   if (parameters.options.boilerplate === false) {
-    addEmptyBoilerplate(context)
+    await addEmptyBoilerplate(context)
     return
   }
 

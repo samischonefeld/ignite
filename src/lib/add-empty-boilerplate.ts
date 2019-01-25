@@ -1,4 +1,4 @@
-module.exports = async function(context) {
+export default async function(context) {
   const { filesystem, parameters, ignite, print, reactNative } = context
   const name = parameters.second
   const spinner = print.spin(`skipping boilerplate`).succeed()
