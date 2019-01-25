@@ -1,8 +1,8 @@
 // @cliDescription  Copy templates as blueprints for this project
 // ----------------------------------------------------------------------------
-const { reduce, find } = require('ramda')
-const exitCodes = require('../lib/exitCodes')
-const isIgniteDirectory = require('../lib/isIgniteDirectory')
+import { reduce, find } from 'ramda'
+import exitCodes from '../lib/exitCodes'
+import isIgniteDirectory from '../lib/isIgniteDirectory'
 
 module.exports = async function(context) {
   // ensure we're in a supported directory

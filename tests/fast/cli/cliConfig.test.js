@@ -55,5 +55,5 @@ test('ignite', async () => {
   })
 
   // run the with nothing
-  await cli([null, null, ''])
+  await cli.run([null, null, ''])
 })

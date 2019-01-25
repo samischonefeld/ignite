@@ -1,8 +1,7 @@
-const minimist = require('minimist')
-const { build, printCommands, printWtf, print } = require('gluegun')
-const header = require('../brand/header')
-const { isNil, isEmpty } = require('ramda')
-const PrettyError = require('pretty-error')
+import * as minimist from 'minimist'
+import { build, printCommands, printWtf, print } from 'gluegun'
+import { isNil, isEmpty } from 'ramda'
+import * as PrettyError from 'pretty-error'
 const pe = new PrettyError()
 
 const buildIgnite = () => {
@@ -72,7 +71,7 @@ module.exports = {
     if (commandLine.help || commandLine.h || isNil(context.plugin) || isNil(context.command)) {
       // no args, show help
       print.info('')
-      header()
+      require('../brand/header')()
       printCommands(context)
       print.info('')
       print.info(print.colors.magenta('If you need additional help, join our Slack at http://community.infinite.red'))

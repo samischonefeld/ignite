@@ -1,12 +1,11 @@
 // @cliDescription  Generate a new React Native project with Ignite CLI.
 // @cliAlias n
 // ----------------------------------------------------------------------------
-const isIgniteDirectory = require('../lib/isIgniteDirectory')
-const exitCodes = require('../lib/exitCodes')
-const path = require('path')
-const header = require('../brand/header')
-const addEmptyBoilerplate = require('../lib/addEmptyBoilerplate')
-const { forEach, keys, reduce, concat, trim, isEmpty, match, not, toLower } = require('ramda')
+import isIgniteDirectory from '../lib/isIgniteDirectory'
+import exitCodes from '../lib/exitCodes'
+import * as path from 'path'
+import addEmptyBoilerplate from '../lib/addEmptyBoilerplate'
+import { forEach, keys, reduce, concat, trim, isEmpty, match, not, toLower } from 'ramda'
 
 /**
  * Creates a new ignite project based on an optional boilerplate.
@@ -97,7 +96,7 @@ async function command(context) {
   }
 
   // print a header
-  header()
+  require('../brand/header')()
   print.newline()
   print.info(`🔥 igniting app ${print.colors.yellow(projectName)}`)
 

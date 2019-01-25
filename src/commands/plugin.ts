@@ -2,8 +2,8 @@
 // @cliAlias p
 // ----------------------------------------------------------------------------
 
-const exitCodes = require('../lib/exitCodes')
-const validateName = require('../lib/validateName')
+import exitCodes from '../lib/exitCodes'
+import validateName from '../lib/validateName'
 
 /**
  * Does a walkthrough of questions and returns the answers as an object.

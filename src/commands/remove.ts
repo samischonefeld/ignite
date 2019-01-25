@@ -2,13 +2,13 @@
 // @cliAlias r
 // ----------------------------------------------------------------------------
 
-const Shell = require('shelljs')
-const { reduce, concat, keys, pathOr, join, map, assoc } = require('ramda')
-const isIgniteDirectory = require('../lib/isIgniteDirectory')
-const prependIgnite = require('../lib/prependIgnite')
-const findPluginFile = require('../lib/findPluginFile')
-const exitCodes = require('../lib/exitCodes')
-const path = require('path')
+import Shell from 'shelljs'
+import { reduce, concat, keys, pathOr, join, map, assoc } from 'ramda'
+import isIgniteDirectory from '../lib/isIgniteDirectory'
+import prependIgnite from '../lib/prependIgnite'
+import findPluginFile from '../lib/findPluginFile'
+import exitCodes from '../lib/exitCodes'
+import * as path from 'path'
 
 // use yarn or use npm? hardcode for now
 const useYarn = false

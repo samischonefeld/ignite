@@ -2,8 +2,7 @@
 // @cliAlias v
 // ----------------------------------------------------------------------------
 
-const pjson = require('../../package.json')
-
 module.exports = async function(context) {
+  const pjson = require('../../package.json')
   context.print.info(pjson.version)
 }
