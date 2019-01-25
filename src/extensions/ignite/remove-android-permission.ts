@@ -1,7 +1,8 @@
-const exitCodes = require('../../lib/exitCodes')
+import * as exitCodes from '../../lib/exitCodes'
+
 const APP_PATH = process.cwd()
 
-module.exports = (plugin, command, context) => {
+export default (plugin, command, context) => {
   /**
    * Removes Android Permission
    *

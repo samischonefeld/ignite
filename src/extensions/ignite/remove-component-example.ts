@@ -1,4 +1,4 @@
-module.exports = (plugin, command, context) => {
+export default (plugin, command, context) => {
   /**
    * Removes the component example.
    */

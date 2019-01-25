@@ -16,11 +16,11 @@ import * as removePluginScreenExamplesExt from './ignite/removePluginScreenExamp
 import copyBatchExt from './ignite/copy-batch'
 import addComponentExampleExt from './ignite/add-component-example' // Deprecated 3/2/17, Ignite CLI Beta
 import addPluginComponentExampleExt from './ignite/add-plugin-component-example'
-import * as removeComponentExampleExt from './ignite/removeComponentExample' // Deprecated 3/2/17, Ignite CLI Beta
+import removeComponentExampleExt from './ignite/remove-component-example' // Deprecated 3/2/17, Ignite CLI Beta
 import * as removePluginComponentExampleExt from './ignite/removePluginComponentExample'
-import * as removeAndroidPermissionExt from './ignite/removeAndroidPermission'
+import removeAndroidPermissionExt from './ignite/remove-android-permission'
 import * as setDebugConfigExt from './ignite/setDebugConfig'
-import * as removeDebugConfigExt from './ignite/removeDebugConfig'
+import removeDebugConfigExt from './ignite/remove-debug-config'
 import patchInFileExt from './ignite/patch-in-file'
 import generateExt from './ignite/generate'
 import logExt from './ignite/log'

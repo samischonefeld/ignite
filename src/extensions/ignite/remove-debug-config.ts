@@ -1,6 +1,6 @@
-const exitCodes = require('../../lib/exitCodes')
+import * as exitCodes from '../../lib/exitCodes'
 
-module.exports = (plugin, command, context) => {
+export default (plugin, command, context) => {
   /**
    * Remove Debug Config setting
    *
