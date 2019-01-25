@@ -2,7 +2,8 @@
 // @cliAlias a
 // ----------------------------------------------------------------------------
 
-import R from 'ramda'
+import { IgniteConfig, IgniteToolbox } from '../types'
+import * as R from 'ramda'
 import detectedChanges from '../lib/detected-changes'
 import detectInstall from '../lib/detect-install'
 import importPlugin from '../lib/import-plugin'
@@ -13,8 +14,8 @@ import exitCodes from '../lib/exit-codes'
 /**
  * Removes the ignite plugin.
  */
-const removeIgnitePlugin = async (moduleName: string, context) => {
-  const { print, system, ignite } = context
+const removeIgnitePlugin = async (moduleName: string, toolbox: IgniteToolbox) => {
+  const { print, system, ignite } = toolbox
 
   print.warning('Rolling back...run with --debug to see more info')
 
@@ -25,9 +26,9 @@ const removeIgnitePlugin = async (moduleName: string, context) => {
   }
 }
 
-module.exports = async function(context) {
+module.exports = async function(toolbox: IgniteToolbox) {
   // grab a fist-full of features...
-  const { print, filesystem, prompt, ignite, parameters, strings } = context
+  const { print, filesystem, prompt, ignite, parameters, strings } = toolbox
   const { log } = ignite
 
   const perfStart = new Date().getTime()
@@ -38,7 +39,7 @@ module.exports = async function(context) {
 
   // ensure we're in a supported directory
   if (!isIgniteDirectory(process.cwd())) {
-    context.print.error(
+    toolbox.print.error(
       'The `ignite add` command must be run in an ignite-compatible directory.\nUse `ignite attach` to make compatible.',
     )
     process.exit(exitCodes.NOT_IGNITE_PROJECT)
@@ -59,8 +60,8 @@ Examples:
   }
 
   // find out the type of install
-  const specs = detectInstall(context)
-  const { moduleName } = specs
+  const specs = detectInstall(toolbox)
+  const moduleName = specs.moduleName as string
   const modulePath = `${process.cwd()}/node_modules/${moduleName}`
 
   log(`installing ${modulePath} from source ${specs.type}`)
@@ -69,7 +70,7 @@ Examples:
   // const spinner = spin(`adding ${print.colors.cyan(moduleName)}`)
   const spinner = print.spin('')
 
-  const exitCode = await importPlugin(context, specs)
+  const exitCode = await importPlugin(toolbox, specs)
   if (exitCode) {
     spinner.stop()
     process.exit(exitCode)
@@ -77,16 +78,14 @@ Examples:
 
   // optionally load some configuration from the ignite.json from the plugin.
   const ignitePluginConfigPath = `${modulePath}/ignite.json`
-  const newConfig = filesystem.exists(ignitePluginConfigPath) ? filesystem.read(ignitePluginConfigPath, 'json') : {}
+  const newConfig: IgniteConfig = filesystem.exists(ignitePluginConfigPath)
+    ? filesystem.read(ignitePluginConfigPath, 'json')
+    : {}
 
-  const proposedGenerators = R.reduce(
-    (acc, k) => {
-      acc[k] = moduleName
-      return acc
-    },
-    {},
-    newConfig.generators || [],
-  )
+  const proposedGenerators = (newConfig.generators || []).reduce((acc, k) => {
+    acc[k] = moduleName
+    return acc
+  }, {})
 
   // we compare the generator config changes against ours
   const changes = detectedChanges(currentGenerators, proposedGenerators)
@@ -97,7 +96,7 @@ Examples:
     const ok = await prompt.confirm('You ok with that?')
     // if they refuse, then npm/yarn uninstall
     if (!ok) {
-      await removeIgnitePlugin(moduleName, context)
+      await removeIgnitePlugin(moduleName, toolbox)
       process.exit(exitCodes.OK)
     }
     spinner.text = `adding ${print.colors.cyan(moduleName)}`
@@ -106,7 +105,7 @@ Examples:
 
   // ok, are we ready?
   try {
-    let pluginFile = findPluginFile(context, modulePath)
+    let pluginFile: string = findPluginFile(toolbox, modulePath)
     if (pluginFile) {
       // bring the ignite plugin to life
       log(`requiring ignite plugin from ${modulePath}`)
@@ -131,7 +130,7 @@ Examples:
 
         spinner.stop()
         log(`running add() on ignite plugin`)
-        await pluginModule.add(context)
+        await pluginModule.add(toolbox)
 
         const perfDuration = parseInt(((new Date().getTime() - perfStart) / 10).toString(), 10) / 100
 
@@ -155,7 +154,7 @@ Examples:
   } catch (err) {
     // we couldn't require the plugin, it probably has some nasty js!
     spinner.fail('problem loading the plugin JS')
-    await removeIgnitePlugin(moduleName, context)
+    await removeIgnitePlugin(moduleName, toolbox)
     log(err)
     process.exit(exitCodes.PLUGIN_INVALID)
   }

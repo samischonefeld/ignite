@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------
 
 import Shell from 'shelljs'
-import { reduce, concat, keys, pathOr, join, map, assoc } from 'ramda'
+import { concat, pathOr, join, map, assoc } from 'ramda'
 import isIgniteDirectory from '../lib/is-ignite-directory'
 import prependIgnite from '../lib/prepend-ignite'
 import findPluginFile from '../lib/find-plugin-file'
@@ -14,16 +14,12 @@ import * as path from 'path'
 const useYarn = false
 
 const detectRemovals = (configObject, moduleName) => {
-  return reduce(
-    (acc, k) => {
-      if (configObject[k] === moduleName) {
-        return concat([`${k}`], acc)
-      }
-      return acc
-    },
-    [],
-    keys(configObject),
-  )
+  return Object.keys(configObject).reduce((acc, k) => {
+    if (configObject[k] === moduleName) {
+      return concat([`${k}`], acc)
+    }
+    return acc
+  }, [])
 }
 
 const existsLocally = moduleName => {

@@ -1,5 +1,4 @@
-import { contains, anyPass, pipe, filter, propSatisfies, sortBy, prop } from 'ramda'
-import { startsWith } from 'ramdasauce'
+import { IgnitePlugin } from '../../types'
 
 export default (plugin, command, context) => {
   // gluegun stuff
@@ -9,14 +8,12 @@ export default (plugin, command, context) => {
   } = context
 
   // how to identify ignite plugins
-  const ignitePrefixed = propSatisfies(startsWith('ignite-'), 'name')
-  const isInRightLocation = contains(`ignite${separator}plugins`)
-  const inProjectPlugins = propSatisfies(isInRightLocation, 'directory')
-  const onlyIgnitePlugins = filter(anyPass([ignitePrefixed, inProjectPlugins]))
-  const getIgnitePlugins = pipe(
-    onlyIgnitePlugins,
-    sortBy(prop('name')),
-  )
+  const ignitePrefixed = (p: IgnitePlugin) => p.name.startsWith('ignite-') // propSatisfies(startsWith('ignite-'), 'name')
+  const isInRightLocation = (s: string) => s.includes(`ignite${separator}plugins`) // contains(`ignite${separator}plugins`)
+  const inProjectPlugins = (p: IgnitePlugin) => isInRightLocation(p.directory) // propSatisfies(isInRightLocation, 'directory')
+  const onlyIgnitePlugins = (plugins: IgnitePlugin[]) => plugins.filter(p => ignitePrefixed(p) || inProjectPlugins(p)) // filter(anyPass([ignitePrefixed, inProjectPlugins]))
+  const getIgnitePlugins = (plugins: IgnitePlugin[]) =>
+    onlyIgnitePlugins(plugins).sort((a, b) => (a.name < b.name ? -1 : 1)) // pipe(onlyIgnitePlugins, sortBy(prop('name'))
 
   /**
    * Finds the gluegun plugins that are also ignite plugins.  These are

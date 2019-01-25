@@ -2,6 +2,7 @@
 // @cliAlias g
 // ----------------------------------------------------------------------------
 
+import { IgnitePlugin, IgniteToolbox } from '../types'
 import {
   prop,
   groupBy,
@@ -24,18 +25,16 @@ import exitCodes from '../lib/exit-codes'
 
 /**
  * Runs a generator.
- *
- * @params {RunContext} context The environment.
  */
-module.exports = async function(context) {
+module.exports = async function(toolbox: IgniteToolbox) {
   // ensure we're in a supported directory
   if (!isIgniteDirectory(process.cwd())) {
-    context.print.error('The `ignite generate` command must be run in an ignite-compatible directory.')
+    toolbox.print.error('The `ignite generate` command must be run in an ignite-compatible directory.')
     process.exit(exitCodes.NOT_IGNITE_PROJECT)
   }
 
   // grab some features
-  const { ignite, print, parameters, filesystem } = context
+  const { ignite, print, parameters, filesystem } = toolbox
   const config = ignite.loadIgniteConfig()
 
   print.newline()
@@ -43,7 +42,7 @@ module.exports = async function(context) {
   // keys are type of generate and values are a list of options...
   const registry = pipe(
     // with each plugin
-    map(plugin => {
+    map((plugin: IgnitePlugin) => {
       // load the list of generators they support within their ignite.json
       const configFile = `${plugin.directory}/ignite.json`
       const config = filesystem.exists(configFile) ? filesystem.read(configFile, 'json') : {}
@@ -60,6 +59,7 @@ module.exports = async function(context) {
       )
     }),
     flatten,
+    // @ts-ignore i guess ... for now
     groupBy(prop('type')),
   )(ignite.findIgnitePlugins())
 
@@ -82,7 +82,7 @@ module.exports = async function(context) {
   // find the exact match of plugin name & type
   const userRegistry = mapObjIndexed((pluginName, type) => {
     // let's find what the user has asked for in the list
-    const lookup = find(option => equals(pluginName, dotPath('plugin.name', option)), registry[type] || [])
+    const lookup: any = find(option => equals(pluginName, dotPath('plugin.name', option)), registry[type] || [])
 
     // figure out a friendly error to show the user
     let error = null
@@ -151,12 +151,12 @@ module.exports = async function(context) {
       )} to run one of these generators:\n`,
     )
 
-    const showSource = context.parameters.options.source
+    const showSource = toolbox.parameters.options.source
 
     // turn into data we can print
     const data = pipe(
       values,
-      map(item => [
+      map((item: { type: string; pluginName: string; error: any; description: any; plugin: any; command: any }) => [
         print.colors.yellow(item.type),
         item.error || item.description,
         showSource && print.colors.muted(item.pluginName),
@@ -175,15 +175,10 @@ module.exports = async function(context) {
   const newCommand = trim(replace(rx, '', parameters.string))
 
   // make the call to the real generator
-  context.runtime
-    .run({
-      pluginName: registryItem.pluginName,
-      rawCommand: newCommand,
-      options: parameters.options,
-    })
-    .then(e => {
-      if (e.error) {
-        print.debug(e.error)
-      }
-    })
+  const e = await toolbox.runtime.run({
+    pluginName: registryItem.pluginName as string,
+    rawCommand: newCommand,
+    options: parameters.options,
+  })
+  if (e.error) print.debug(e.error)
 }

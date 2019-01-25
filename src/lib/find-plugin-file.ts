@@ -1,13 +1,13 @@
+import { IgniteToolbox } from '../types'
+
 /**
  * Retrieves a plugin's entry point file, which is usually ./plugin.js.
  *
- * @param {Object} context         The gluegun context
- * @param {string} modulePath      The plugin module folder path
- * @returns {string} pluginFile    Path to plugin entry point file
+ * @param {Object} toolbox         The gluegun toolbox
  */
 
-export default function findPluginFile(context, modulePath) {
-  const { filesystem, print } = context
+export default function findPluginFile(toolbox: IgniteToolbox, modulePath: string): string {
+  const { filesystem, print } = toolbox
 
   // Look for plugin.js
   let pluginFile = filesystem.exists(modulePath + '/plugin.js') === 'file' && modulePath + '/plugin.js'

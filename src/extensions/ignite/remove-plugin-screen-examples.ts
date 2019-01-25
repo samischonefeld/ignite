@@ -14,7 +14,7 @@ export default (plugin, command, context) => {
    *   {screen: 'Section.js', ancillary: ['file']},
    * ])
    */
-  async function removePluginScreenExamples(files) {
+  async function removePluginScreenExamples(files: { screen: string; ancillary: string[] }[]) {
     const { filesystem, patching, ignite, print } = context
     const { ignitePluginPath } = ignite
 

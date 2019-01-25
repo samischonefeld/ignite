@@ -15,7 +15,10 @@ export default (plugin, command, context) => {
    *   {title: 'Section Example', screen: 'Section.js', ancillary: ['file']},
    * ])
    */
-  async function addPluginScreenExamples(files, props = {}) {
+  async function addPluginScreenExamples(
+    files: { title: string; screen: string; ancillary: string[] }[],
+    props = Object,
+  ) {
     const { filesystem, ignite, print, template } = context
     const { ignitePluginPath } = ignite
 

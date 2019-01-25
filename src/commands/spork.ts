@@ -1,6 +1,5 @@
 // @cliDescription  Copy templates as blueprints for this project
 // ----------------------------------------------------------------------------
-import { reduce, find } from 'ramda'
 import exitCodes from '../lib/exit-codes'
 import isIgniteDirectory from '../lib/is-ignite-directory'
 
@@ -17,20 +16,16 @@ module.exports = async function(context) {
 
   // ignite spork
   // -> lists all generator plugins (identified in json)
-  const pluginOptions = reduce(
-    (a, k) => {
-      const jsonFile = `${k.directory}/ignite.json`
-      if (filesystem.exists(jsonFile)) {
-        const jsonContents = filesystem.read(jsonFile, 'json') || {}
-        if (jsonContents.generators) {
-          a.push(k.name)
-        }
+  const pluginOptions = context.ignite.findIgnitePlugins().reduce((a, k) => {
+    const jsonFile = `${k.directory}/ignite.json`
+    if (filesystem.exists(jsonFile)) {
+      const jsonContents = filesystem.read(jsonFile, 'json') || {}
+      if (jsonContents.generators) {
+        a.push(k.name)
       }
-      return a
-    },
-    [],
-    context.ignite.findIgnitePlugins(),
-  )
+    }
+    return a
+  }, [])
 
   let selectedPlugin = ''
   if (pluginOptions.length === 0) {
@@ -48,7 +43,7 @@ module.exports = async function(context) {
     selectedPlugin = answer.selectedPlugin
   }
 
-  const directory = find(x => x.name === selectedPlugin, context.ignite.findIgnitePlugins()).directory
+  const directory = context.ignite.findIgnitePlugins().find(x => x.name === selectedPlugin).directory
   const choices = filesystem.list(`${directory}/templates`)
 
   // Ask (if necessary)

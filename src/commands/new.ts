@@ -5,7 +5,7 @@ import isIgniteDirectory from '../lib/is-ignite-directory'
 import exitCodes from '../lib/exit-codes'
 import * as path from 'path'
 import addEmptyBoilerplate from '../lib/add-empty-boilerplate'
-import { forEach, keys, reduce, concat, trim, isEmpty, match, not, toLower } from 'ramda'
+import { trim, isEmpty, match, not, toLower } from 'ramda'
 
 /**
  * Creates a new ignite project based on an optional boilerplate.
@@ -156,12 +156,12 @@ async function command(context) {
   const cliOpts = parameters.options
 
   // turn this back into a string
-  const forwardingOptions = trim(
-    reduce((src, k) => {
+  const forwardingOptions = Object.keys(cliOpts)
+    .reduce((src: string, k: string): string => {
       const v = cliOpts[k]
-      return concat(v === true ? `--${k} ` : `--${k} ${v} `, src)
-    })('', keys(cliOpts)),
-  )
+      return (v === true ? `--${k} ` : `--${k} ${v} `) + src
+    }, '')
+    .trim()
 
   // let's kick off the template
   let ok = false
@@ -186,7 +186,10 @@ async function command(context) {
   if (ok) {
     log(`moving contents of ${projectName} into place`)
     // move everything that's 1 deep back up to here
-    forEach(filename => filesystem.move(path.join(projectName, filename), filename), filesystem.list(projectName) || [])
+    const deepFiles = filesystem.list(projectName) || []
+    deepFiles.forEach((filename: string) => {
+      filesystem.move(path.join(projectName, filename), filename)
+    })
     log(`removing unused sub directory ${projectName}`)
     filesystem.remove(projectName)
   }
