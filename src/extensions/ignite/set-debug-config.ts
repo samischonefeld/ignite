@@ -1,14 +1,10 @@
-const exitCodes = require('../../lib/exitCodes')
+import * as exitCodes from '../../lib/exitCodes'
 
-module.exports = (plugin, command, context) => {
+export default (plugin, command, context) => {
   /**
    * Sets Debug Config setting
-   *
-   * @param {string} key - Key of setting to be defined
-   * @param {string} value - Value to be set
-   * @param {bool} isVariableName[false] - flag to set value as variable name instead of string
    */
-  function setDebugConfig(key, value, isVariableName = false) {
+  function setDebugConfig(key: string, value: string, isVariableName: boolean = false) {
     const { filesystem, patching, ignite, print } = context
     const debugConfig = `${process.cwd()}/App/Config/DebugConfig.js`
 

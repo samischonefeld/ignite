@@ -8,23 +8,23 @@ import igniteConfigExt from './ignite/ignite-config'
 import findIgnitePluginsExt from './ignite/find-ignite-plugins'
 import addModuleExt from './ignite/add-module'
 import addAndroidPermissionExt from './ignite/add-android-permission'
-import * as removeModuleExt from './ignite/removeModule'
+import removeModuleExt from './ignite/remove-module'
 import addScreenExamplesExt from './ignite/add-screen-examples' // Deprecated 3/2/17, Ignite CLI Beta
 import addPluginScreenExamplesExt from './ignite/add-plugin-screen-examples'
-import * as removeScreenExamplesExt from './ignite/removeScreenExamples' // Deprecated 3/2/17, Ignite CLI Beta
-import * as removePluginScreenExamplesExt from './ignite/removePluginScreenExamples'
+import removeScreenExamplesExt from './ignite/remove-screen-examples' // Deprecated 3/2/17, Ignite CLI Beta
+import removePluginScreenExamplesExt from './ignite/remove-plugin-screen-examples'
 import copyBatchExt from './ignite/copy-batch'
 import addComponentExampleExt from './ignite/add-component-example' // Deprecated 3/2/17, Ignite CLI Beta
 import addPluginComponentExampleExt from './ignite/add-plugin-component-example'
 import removeComponentExampleExt from './ignite/remove-component-example' // Deprecated 3/2/17, Ignite CLI Beta
-import * as removePluginComponentExampleExt from './ignite/removePluginComponentExample'
+import removePluginComponentExampleExt from './ignite/remove-plugin-component-example'
 import removeAndroidPermissionExt from './ignite/remove-android-permission'
-import * as setDebugConfigExt from './ignite/setDebugConfig'
+import setDebugConfigExt from './ignite/set-debug-config'
 import removeDebugConfigExt from './ignite/remove-debug-config'
 import patchInFileExt from './ignite/patch-in-file'
 import generateExt from './ignite/generate'
 import logExt from './ignite/log'
-import * as versionExt from './ignite/version'
+import versionExt from './ignite/version'
 import pluginOverridesExt from './ignite/plugin-overrides'
 
 /**
@@ -32,7 +32,7 @@ import pluginOverridesExt from './ignite/plugin-overrides'
  *
  * @return {Function} A function to attach to the context.
  */
-function attach(plugin, command, context) {
+function attach(plugin, command, context): Object {
   const { parameters } = context
 
   // determine which package manager to use

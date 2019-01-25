@@ -1,13 +1,8 @@
-module.exports = (plugin, command, context) => {
+export default (plugin, command, context) => {
   /**
    * Removes a npm-based module from the project.
-   *
-   * @param {string}  moduleName - The module name to remove.
-   * @param {Object}  options - Various uninstalling flags.
-   * @param {boolean} options.unlink - Should we unlink?
-   * @param {boolean} options.dev - is this a dev dependency?
    */
-  async function removeModule(moduleName, options = {}) {
+  async function removeModule(moduleName: string, options: { unlink?: boolean; dev?: boolean } = {}) {
     const { print, system, ignite } = context
     const { useYarn } = ignite
 

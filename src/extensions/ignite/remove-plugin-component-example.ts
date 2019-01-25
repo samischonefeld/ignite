@@ -1,8 +1,8 @@
-module.exports = (plugin, command, context) => {
+export default (plugin, command, context) => {
   /**
    * Removes the component example.
    */
-  function removePluginComponentExample(fileName) {
+  function removePluginComponentExample(fileName: string) {
     const { filesystem, patching, print } = context
     print.info(`    ${print.checkmark} removing component example`)
     // remove file from Components/Examples folder

@@ -1,7 +1,7 @@
-const { flatten, replace, reduce, map, takeLast, split } = require('ramda')
-const path = require('path')
+import { flatten, replace, reduce, map, takeLast, split } from 'ramda'
+import * as path from 'path'
 
-module.exports = (plugin, command, context) => {
+export default (plugin, command, context) => {
   /**
    * Remove example screens from dev screens.
    *
