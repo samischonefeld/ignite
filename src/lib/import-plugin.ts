@@ -1,5 +1,4 @@
-const { isEmpty, forEach, trim } = require('ramda')
-const exitCodes = require('../lib/exit-codes').default
+import exitCodes from '../lib/exit-codes'
 
 /**
  * Install this module.
@@ -9,6 +8,7 @@ const exitCodes = require('../lib/exit-codes').default
  * @param {string} opts.moduleName The module to install
  */
 async function importPlugin(context, opts) {
+  const { isEmpty, forEach, trim } = require('ramda')
   const { moduleName, version, type, directory } = opts
   const { ignite, system, filesystem } = context
   const { log } = ignite
@@ -23,7 +23,7 @@ async function importPlugin(context, opts) {
       log(`${json.name} ${json.version} on npm.`)
     } catch (e) {
       log(`unable to find ${target} on npm`)
-      const boom = new Error(e.message)
+      const boom = new Error(e.message) as any
       boom.unavailable = true
       boom.name = target
       throw boom
@@ -72,7 +72,7 @@ async function importPlugin(context, opts) {
  * @param {any} specs   - The specs of the module to import (sourced from detectInstall)
  * @returns An error code or null.
  */
-async function safelyImportPlugin(context, specs) {
+export default async function safelyImportPlugin(context, specs) {
   const { moduleName } = specs
   const { print, ignite } = context
   const spinner = print.spin(`adding ${print.colors.cyan(moduleName)}`)
@@ -104,5 +104,3 @@ async function safelyImportPlugin(context, specs) {
   }
   spinner.stop()
 }
-
-module.exports = safelyImportPlugin

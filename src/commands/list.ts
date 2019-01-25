@@ -1,4 +1,4 @@
 // @cliDescription Lists known Ignite plugins.
 // ----------------------------------------------------------------------------
 
-export * from '../lib/showPluginDirectory'
+export * from '../lib/show-plugin-directory'

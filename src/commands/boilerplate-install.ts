@@ -1,8 +1,8 @@
 // @cliHidden true
 
 import detectInstall from '../lib/detect-install'
-import isIgniteDirectory from '../lib/isIgniteDirectory'
-import importPlugin from '../lib/importPlugin'
+import isIgniteDirectory from '../lib/is-ignite-directory'
+import importPlugin from '../lib/import-plugin'
 import exitCodes from '../lib/exit-codes'
 
 /**

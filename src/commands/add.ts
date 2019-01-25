@@ -5,9 +5,9 @@
 import R from 'ramda'
 import detectedChanges from '../lib/detected-changes'
 import detectInstall from '../lib/detect-install'
-import importPlugin from '../lib/importPlugin'
-import isIgniteDirectory from '../lib/isIgniteDirectory'
-import findPluginFile from '../lib/findPluginFile'
+import importPlugin from '../lib/import-plugin'
+import isIgniteDirectory from '../lib/is-ignite-directory'
+import findPluginFile from '../lib/find-plugin-file'
 import exitCodes from '../lib/exit-codes'
 
 /**

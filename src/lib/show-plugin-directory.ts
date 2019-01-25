@@ -1,6 +1,5 @@
-const { pipe, keys, filter, map } = require('ramda')
-const exitCodes = require('./exit-codes').default
-const fetchPluginRegistry = require('./fetchPluginRegistry')
+import exitCodes from './exit-codes'
+import fetchPluginRegistry from './fetch-plugin-registry'
 
 /**
  * Shows a list of known plugins.
@@ -8,6 +7,8 @@ const fetchPluginRegistry = require('./fetchPluginRegistry')
  * @param {Object} context The gluegun context.
  */
 module.exports = async function(context) {
+  const { pipe, keys, filter, map } = require('ramda')
+
   const { print, parameters } = context
   const { colors, newline, info, table, error } = print
   const directory = await fetchPluginRegistry(context)

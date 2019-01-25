@@ -1,3 +1,5 @@
+import prependIgnite from './prepend-ignite'
+
 /**
  * Detects the type of install the user is requesting for this plugin.
  *
@@ -11,7 +13,6 @@
  * @return {object}         - specs about the type of install
  */
 export default function detectInstall(context) {
-  const prependIgnite = require('./prependIgnite')
   const { find } = require('ramda')
   const path = require('path')
 

@@ -1,8 +1,8 @@
 // @cliDescription Displays info about a given Ignite plugin.
 // ----------------------------------------------------------------------------
 
-const validateName = require('../lib/validateName')
-const fetchPluginRegistry = require('../lib/fetchPluginRegistry')
+import validateName from '../lib/validate-name'
+import fetchPluginRegistry from '../lib/fetch-plugin-registry'
 
 /**
  * Shows info about a particular plugin.

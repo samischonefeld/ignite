@@ -1,11 +1,8 @@
-const jetpack = require('fs-jetpack')
-
 /**
  * Is Ignite compatible with the directory we're currently inside?
- *
- * @return true or false
  */
-function isIgniteDirectory(directory) {
+export default function isIgniteDirectory(directory: string): boolean {
+  const jetpack = require('fs-jetpack')
   // read the ignite config
   const igniteConfigPath = `${directory}/ignite/ignite.json`
 
@@ -21,5 +18,3 @@ function isIgniteDirectory(directory) {
     return false
   }
 }
-
-module.exports = isIgniteDirectory

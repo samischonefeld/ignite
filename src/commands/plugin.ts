@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------
 
 import exitCodes from '../lib/exit-codes'
-import validateName from '../lib/validateName'
+import validateName from '../lib/validate-name'
 
 /**
  * Does a walkthrough of questions and returns the answers as an object.

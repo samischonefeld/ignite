@@ -2,7 +2,7 @@
 // ----------------------------------------------------------------------------
 import { reduce, find } from 'ramda'
 import exitCodes from '../lib/exit-codes'
-import isIgniteDirectory from '../lib/isIgniteDirectory'
+import isIgniteDirectory from '../lib/is-ignite-directory'
 
 module.exports = async function(context) {
   // ensure we're in a supported directory

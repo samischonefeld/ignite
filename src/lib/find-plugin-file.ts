@@ -6,7 +6,7 @@
  * @returns {string} pluginFile    Path to plugin entry point file
  */
 
-function findPluginFile(context, modulePath) {
+export default function findPluginFile(context, modulePath) {
   const { filesystem, print } = context
 
   // Look for plugin.js
@@ -27,5 +27,3 @@ function findPluginFile(context, modulePath) {
 
   return pluginFile
 }
-
-module.exports = findPluginFile

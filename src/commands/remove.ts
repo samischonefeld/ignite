@@ -4,9 +4,9 @@
 
 import Shell from 'shelljs'
 import { reduce, concat, keys, pathOr, join, map, assoc } from 'ramda'
-import isIgniteDirectory from '../lib/isIgniteDirectory'
-import prependIgnite from '../lib/prependIgnite'
-import findPluginFile from '../lib/findPluginFile'
+import isIgniteDirectory from '../lib/is-ignite-directory'
+import prependIgnite from '../lib/prepend-ignite'
+import findPluginFile from '../lib/find-plugin-file'
 import exitCodes from '../lib/exit-codes'
 import * as path from 'path'
 

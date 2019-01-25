@@ -1,5 +1,5 @@
-const exitCodes = require('./exit-codes').default
-const prependIgnite = require('./prependIgnite')
+import exitCodes from './exit-codes'
+import prependIgnite from './prepend-ignite'
 
 /**
  * Checks whether a plugin name was given and errors if not.
@@ -9,7 +9,7 @@ const prependIgnite = require('./prependIgnite')
  * @param {Object} context The gluegun context.
  * @returns {String} The normalized name.
  */
-const validateName = (pluginName, context) => {
+export default (pluginName, context) => {
   const { strings, print } = context
 
   if (strings.isBlank(pluginName)) {
@@ -27,5 +27,3 @@ const validateName = (pluginName, context) => {
   // Force prepend `ignite-*` to plugin name
   return prependIgnite(pluginName)
 }
-
-module.exports = validateName

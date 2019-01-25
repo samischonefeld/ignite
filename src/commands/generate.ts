@@ -19,7 +19,7 @@ import {
   isEmpty,
 } from 'ramda'
 import { dotPath } from 'ramdasauce'
-import isIgniteDirectory from '../lib/isIgniteDirectory'
+import isIgniteDirectory from '../lib/is-ignite-directory'
 import exitCodes from '../lib/exit-codes'
 
 /**

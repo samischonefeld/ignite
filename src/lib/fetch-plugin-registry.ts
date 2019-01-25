@@ -4,7 +4,7 @@
  * @param {Object} context The gluegun context.
  */
 
-module.exports = async function(context) {
+export default async function(context) {
   const api = context.http.create({
     baseURL: 'https://raw.githubusercontent.com/infinitered/ignite-plugins',
   })

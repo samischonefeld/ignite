@@ -1,7 +1,7 @@
 // @cliDescription  Generate a new React Native project with Ignite CLI.
 // @cliAlias n
 // ----------------------------------------------------------------------------
-import isIgniteDirectory from '../lib/isIgniteDirectory'
+import isIgniteDirectory from '../lib/is-ignite-directory'
 import exitCodes from '../lib/exit-codes'
 import * as path from 'path'
 import addEmptyBoilerplate from '../lib/add-empty-boilerplate'
