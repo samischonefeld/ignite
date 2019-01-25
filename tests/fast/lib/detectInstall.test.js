@@ -1,5 +1,5 @@
 const filesystem = require('fs-jetpack')
-const detectInstall = require('../../../src/lib/detectInstall')
+const detectInstall = require('../../../src/lib/detect-install').default
 const path = require('path')
 
 test('detects npm modules', async () => {

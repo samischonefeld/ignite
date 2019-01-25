@@ -7,7 +7,7 @@ import { reduce, concat, keys, pathOr, join, map, assoc } from 'ramda'
 import isIgniteDirectory from '../lib/isIgniteDirectory'
 import prependIgnite from '../lib/prependIgnite'
 import findPluginFile from '../lib/findPluginFile'
-import exitCodes from '../lib/exitCodes'
+import exitCodes from '../lib/exit-codes'
 import * as path from 'path'
 
 // use yarn or use npm? hardcode for now

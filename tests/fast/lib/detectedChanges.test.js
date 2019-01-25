@@ -1,4 +1,4 @@
-const detectedChanges = require('../../../src/lib/detectedChanges')
+const detectedChanges = require('../../../src/lib/detected-changes').default
 
 test('empty objects', () => {
   const actual = detectedChanges({}, {})

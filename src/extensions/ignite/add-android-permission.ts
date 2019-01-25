@@ -1,4 +1,4 @@
-import * as exitCodes from '../../lib/exitCodes'
+import exitCodes from '../../lib/exit-codes'
 const APP_PATH = process.cwd()
 
 export default (plugin, command, context) => {

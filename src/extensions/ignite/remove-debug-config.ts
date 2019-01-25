@@ -1,4 +1,4 @@
-import * as exitCodes from '../../lib/exitCodes'
+import exitCodes from '../../lib/exit-codes'
 
 export default (plugin, command, context) => {
   /**
@@ -12,7 +12,7 @@ export default (plugin, command, context) => {
 
     if (!filesystem.exists(debugConfig)) {
       print.error('💩 No `App/Config/DebugConfig.js` file found in this folder, are you sure it is an ignite project?')
-      process.exit(exitCodes.generic)
+      process.exit(exitCodes.GENERIC)
     }
 
     if (patching.isInFile(debugConfig, key)) {

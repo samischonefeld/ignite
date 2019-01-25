@@ -1,7 +1,7 @@
 // @cliDescription  Copy templates as blueprints for this project
 // ----------------------------------------------------------------------------
 import { reduce, find } from 'ramda'
-import exitCodes from '../lib/exitCodes'
+import exitCodes from '../lib/exit-codes'
 import isIgniteDirectory from '../lib/isIgniteDirectory'
 
 module.exports = async function(context) {

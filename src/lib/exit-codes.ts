@@ -1,7 +1,7 @@
 /**
  * Exit codes used to off the app.
  */
-module.exports = {
+export default {
   /**
    * A peaceful & expected death.
    */

@@ -20,7 +20,7 @@ import {
 } from 'ramda'
 import { dotPath } from 'ramdasauce'
 import isIgniteDirectory from '../lib/isIgniteDirectory'
-import exitCodes from '../lib/exitCodes'
+import exitCodes from '../lib/exit-codes'
 
 /**
  * Runs a generator.

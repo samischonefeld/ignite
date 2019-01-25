@@ -1,5 +1,5 @@
 const { pipe, keys, filter, map } = require('ramda')
-const exitCodes = require('./exitCodes')
+const exitCodes = require('./exit-codes').default
 const fetchPluginRegistry = require('./fetchPluginRegistry')
 
 /**

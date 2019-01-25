@@ -1,4 +1,4 @@
-import * as exitCodes from '../../lib/exitCodes'
+import exitCodes from '../../lib/exit-codes'
 
 export default (plugin, command, context) => {
   /**

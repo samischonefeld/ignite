@@ -2,7 +2,7 @@
 // @cliAlias n
 // ----------------------------------------------------------------------------
 import isIgniteDirectory from '../lib/isIgniteDirectory'
-import exitCodes from '../lib/exitCodes'
+import exitCodes from '../lib/exit-codes'
 import * as path from 'path'
 import addEmptyBoilerplate from '../lib/add-empty-boilerplate'
 import { forEach, keys, reduce, concat, trim, isEmpty, match, not, toLower } from 'ramda'

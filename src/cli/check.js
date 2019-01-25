@@ -33,7 +33,7 @@ var debugMode = process.argv.indexOf('--debug') !== -1 || process.argv.indexOf('
 if (debugMode) {
   // lets check our global dependencies
   var enforceGlobalDependency = require('./enforce-global')
-  var exitCodes = require('../lib/exitCodes')
+  var exitCodes = require('../lib/exit-codes').default
 
   // react-native-cli
   // cost: 0.173s

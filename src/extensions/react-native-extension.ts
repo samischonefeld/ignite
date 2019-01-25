@@ -1,5 +1,5 @@
 import { test, trim } from 'ramda'
-import * as exitCodes from '../lib/exitCodes'
+import exitCodes from '../lib/exit-codes'
 
 // DEPRECATED: Please specify React Native version when invoking install
 // Example: const rnInstall = await reactNative.install({ name, version: '0.42.0' })

@@ -3,12 +3,12 @@
 // ----------------------------------------------------------------------------
 
 import R from 'ramda'
-import detectedChanges from '../lib/detectedChanges'
-import detectInstall from '../lib/detectInstall'
+import detectedChanges from '../lib/detected-changes'
+import detectInstall from '../lib/detect-install'
 import importPlugin from '../lib/importPlugin'
 import isIgniteDirectory from '../lib/isIgniteDirectory'
 import findPluginFile from '../lib/findPluginFile'
-import exitCodes from '../lib/exitCodes'
+import exitCodes from '../lib/exit-codes'
 
 /**
  * Removes the ignite plugin.

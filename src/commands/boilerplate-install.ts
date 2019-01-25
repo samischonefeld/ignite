@@ -1,9 +1,9 @@
 // @cliHidden true
 
-import detectInstall from '../lib/detectInstall'
+import detectInstall from '../lib/detect-install'
 import isIgniteDirectory from '../lib/isIgniteDirectory'
 import importPlugin from '../lib/importPlugin'
-import exitCodes from '../lib/exitCodes'
+import exitCodes from '../lib/exit-codes'
 
 /**
  * Installs and runs an ignite boilerplate.

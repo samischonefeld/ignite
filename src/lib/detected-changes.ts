@@ -1,5 +1,3 @@
-const { keys, intersection, reduce, concat } = require('ramda')
-
 /**
  * Returns a list of keys whose values have changed.
  *
@@ -7,7 +5,8 @@ const { keys, intersection, reduce, concat } = require('ramda')
  * @param {Object} newObject The new version.
  * @return {Array[String]} A list of keys with single quotes around them.
  */
-const detectedChanges = (oldObject, newObject) => {
+export default (oldObject, newObject) => {
+  const { keys, intersection, reduce, concat } = require('ramda')
   let oldKeys = keys(oldObject)
   let newKeys = keys(newObject)
   const inter = intersection(oldKeys, newKeys)
@@ -22,5 +21,3 @@ const detectedChanges = (oldObject, newObject) => {
     inter,
   )
 }
-
-module.exports = detectedChanges

@@ -1,4 +1,4 @@
-const exitCodes = require('../../../src/lib/exitCodes')
+const exitCodes = require('../../../src/lib/exit-codes').default
 const { values, sortBy, identity, pipe, uniq, length } = require('ramda')
 const { rangeStep } = require('ramdasauce')
 

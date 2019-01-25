@@ -2,7 +2,7 @@
 // @cliAlias p
 // ----------------------------------------------------------------------------
 
-import exitCodes from '../lib/exitCodes'
+import exitCodes from '../lib/exit-codes'
 import validateName from '../lib/validateName'
 
 /**

@@ -1,7 +1,3 @@
-const prependIgnite = require('./prependIgnite')
-const { find } = require('ramda')
-const path = require('path')
-
 /**
  * Detects the type of install the user is requesting for this plugin.
  *
@@ -14,7 +10,11 @@ const path = require('path')
  * @param  {object} context - an ignite context
  * @return {object}         - specs about the type of install
  */
-function detectInstall(context) {
+export default function detectInstall(context) {
+  const prependIgnite = require('./prependIgnite')
+  const { find } = require('ramda')
+  const path = require('path')
+
   // grab some gluegun goodies
   const { filesystem, parameters, ignite } = context
 
@@ -34,7 +34,8 @@ function detectInstall(context) {
   let plugin = parameters.second
 
   // extract the package name and (optionally) version
-  let packageName, packageVersion
+  let packageName
+  let packageVersion
   const versionSepRe = /(?<!^|\/)@/
   const isScoped = plugin.startsWith('@')
   packageName = plugin.split(versionSepRe)[0]
@@ -84,5 +85,3 @@ function detectInstall(context) {
     type: 'npm',
   }
 }
-
-module.exports = detectInstall
