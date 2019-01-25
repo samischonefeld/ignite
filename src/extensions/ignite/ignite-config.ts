@@ -1,7 +1,8 @@
-const { dissoc } = require('ramda')
+import { dissoc } from 'ramda'
+
 const igniteConfigFilename = `${process.cwd()}/ignite/ignite.json`
 
-module.exports = (plugin, command, context) => {
+export default (plugin, command, context) => {
   const { filesystem } = context
 
   /**

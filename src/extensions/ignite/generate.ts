@@ -1,6 +1,6 @@
-const { merge } = require('ramda')
+import { merge } from 'ramda'
 
-module.exports = (plugin, command, context) => {
+export default (plugin, command, context) => {
   const { filesystem, template } = context
 
   /**
@@ -9,7 +9,7 @@ module.exports = (plugin, command, context) => {
    * @param  {{}} opts Generation options.
    * @return {string}  The generated string.
    */
-  async function generate(opts = {}) {
+  async function generate(opts: { template?: string } = {}) {
     // checked for a sporked version
     const sporkDirectory = `${filesystem.cwd()}/ignite/Spork/${context.plugin.name}`
     const isSporked = filesystem.exists(`${sporkDirectory}/${opts.template}`)

@@ -1,7 +1,7 @@
-const { contains, anyPass, pipe, filter, propSatisfies, sortBy, prop } = require('ramda')
-const { startsWith } = require('ramdasauce')
+import { contains, anyPass, pipe, filter, propSatisfies, sortBy, prop } from 'ramda'
+import { startsWith } from 'ramdasauce'
 
-module.exports = (plugin, command, context) => {
+export default (plugin, command, context) => {
   // gluegun stuff
   const {
     runtime,

@@ -1,4 +1,4 @@
-const extension = require('../../../src/extensions/ignite/findIgnitePlugins')
+const extension = require('../../../src/extensions/ignite/find-ignite-plugins').default
 const path = require('path')
 
 test('has the right interface', () => {
