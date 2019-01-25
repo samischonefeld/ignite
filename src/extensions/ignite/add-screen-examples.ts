@@ -1,4 +1,4 @@
-module.exports = (plugin, command, context) => {
+export default (plugin, command, context) => {
   /**
    * Generates example screens for in dev screens.
    *
