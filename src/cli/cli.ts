@@ -1,23 +1,16 @@
 import * as minimist from 'minimist'
-import { build, printCommands, printWtf, print } from 'gluegun'
-import { isNil, isEmpty } from 'ramda'
+import { build, print } from 'gluegun'
+import { isEmpty } from 'ramda'
 import * as PrettyError from 'pretty-error'
 const pe = new PrettyError()
 
 const buildIgnite = () => {
   return build()
     .brand('ignite')
-    .loadDefault(`${__dirname}/..`)
-    .loadAll(`${process.cwd()}/ignite/plugins`)
-    .loadAll(`${process.cwd()}/node_modules`, { matching: 'ignite-*', hidden: true })
-    .loadAll(`${process.cwd()}/node_modules`, { matching: 'gluegun-*', hidden: true })
-    .token('commandName', 'cliCommand')
-    .token('commandHidden', 'cliHidden')
-    .token('commandAlias', 'cliAlias')
-    .token('commandName', 'cliCommand')
-    .token('commandDescription', 'cliDescription')
-    .token('extensionName', 'contextExtension')
-    .createRuntime()
+    .src(`${__dirname}/..`)
+    .plugins(`${process.cwd()}/ignite/plugins`)
+    .plugins(`${process.cwd()}/node_modules`, { matching: 'ignite-*', hidden: true })
+    .create()
 }
 
 /**
@@ -48,41 +41,25 @@ module.exports = {
       return
     }
 
-    // wtf mode shows problems with plugins, commands, and extensions
-    if (commandLine.wtf) {
-      printWtf(runtime)
-      return
-    }
-
     if (commandLine.verbose && !commandLine.debug) {
       print.error('Use --debug instead of --verbose.')
       return
     }
 
     // run the command
-    let context
+    let toolbox
     try {
-      context = await runtime.run()
+      toolbox = await runtime.run()
     } catch (e) {
       console.log(pe.render(e))
       throw e // rethrow
     }
 
-    if (commandLine.help || commandLine.h || isNil(context.plugin) || isNil(context.command)) {
-      // no args, show help
-      print.info('')
-      require('../brand/header')()
-      printCommands(context)
-      print.info('')
-      print.info(print.colors.magenta('If you need additional help, join our Slack at http://community.infinite.red'))
-      print.info('')
-    }
-
-    if (context.error) {
-      print.debug(context.error)
+    if (toolbox.error) {
+      print.debug(toolbox.error)
     }
 
     // send it back to make testing easier
-    return context
+    return toolbox
   },
 }

@@ -1,7 +1,8 @@
-import { flatten, replace, reduce, map, takeLast, split } from 'ramda'
+import { flatten, replace, reduce, takeLast, split } from 'ramda'
 import * as path from 'path'
+import { IgniteToolbox } from '../../types'
 
-export default (plugin, command, context) => {
+export default (toolbox: IgniteToolbox) => {
   /**
    * Remove example screens from dev screens.
    *
@@ -15,12 +16,12 @@ export default (plugin, command, context) => {
    * ])
    */
   async function removePluginScreenExamples(files: { screen: string; ancillary: string[] }[]) {
-    const { filesystem, patching, ignite, print } = context
-    const { ignitePluginPath } = ignite
+    const { filesystem, ignite, print } = toolbox
+    const { ignitePluginPath, patching } = ignite
 
     const config = ignite.loadIgniteConfig()
 
-    // consider this being part of context.ignite
+    // consider this being part of toolbox.ignite
     const pluginName = takeLast(1, split(path.sep, ignitePluginPath()))[0]
 
     // currently only supporting 1 form of examples
@@ -39,13 +40,14 @@ export default (plugin, command, context) => {
       )
 
       // delete all files that were inserted
-      map(fileName => {
-        filesystem.removeAsync(`ignite/Examples/Containers/${pluginName}/${fileName}`)
-      }, allFiles)
+      const delAll = allFiles.map(fileName =>
+        filesystem.removeAsync(`ignite/Examples/Containers/${pluginName}/${fileName}`),
+      )
+      await Promise.all(delAll)
 
       // delete screen, route, and buttons in PluginExamples (if exists)
       const destinationPath = `${process.cwd()}/ignite/DevScreens/PluginExamplesScreen.js`
-      map(file => {
+      files.map(file => {
         // turn things like "examples/This File-Example.js" into "ThisFileExample"
         // for decent component names
         const exampleFileName = takeLast(1, split(path.sep, file.screen))[0]
@@ -73,7 +75,7 @@ export default (plugin, command, context) => {
             '',
           )
         } // if
-      }, files)
+      })
 
       spinner.stop()
     }

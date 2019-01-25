@@ -1,11 +1,13 @@
 import exitCodes from '../../lib/exit-codes'
+import { IgniteToolbox } from '../../types'
 
-export default (plugin, command, context) => {
+export default (toolbox: IgniteToolbox) => {
   /**
    * Sets Debug Config setting
    */
   function setDebugConfig(key: string, value: string, isVariableName: boolean = false) {
-    const { filesystem, patching, ignite, print } = context
+    const { filesystem, ignite, print } = toolbox
+    const { patching } = ignite
     const debugConfig = `${process.cwd()}/App/Config/DebugConfig.js`
 
     if (!filesystem.exists(debugConfig)) {

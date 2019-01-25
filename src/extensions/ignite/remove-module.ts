@@ -1,9 +1,11 @@
-export default (plugin, command, context) => {
+import { IgniteToolbox } from '../../types'
+
+export default (toolbox: IgniteToolbox) => {
   /**
    * Removes a npm-based module from the project.
    */
   async function removeModule(moduleName: string, options: { unlink?: boolean; dev?: boolean } = {}) {
-    const { print, system, ignite } = context
+    const { print, system, ignite } = toolbox
     const { useYarn } = ignite
 
     print.info(`    ${print.checkmark} uninstalling ${moduleName}`)

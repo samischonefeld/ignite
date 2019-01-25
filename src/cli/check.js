@@ -5,6 +5,8 @@ var Sniff = require('gluegun/sniff')
 var shell = require('shelljs')
 var which = require('which')
 
+console.log(Sniff)
+
 // check the node version
 if (!Sniff.isNewEnough) {
   console.log('Node.js 7.6+ is required to run. You have ' + Sniff.nodeVersion + '. Womp, womp.')

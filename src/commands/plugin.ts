@@ -1,28 +1,25 @@
-// @cliDescription Manages ignite plugins
-// @cliAlias p
-// ----------------------------------------------------------------------------
-
 import exitCodes from '../lib/exit-codes'
 import validateName from '../lib/validate-name'
+import { IgniteToolbox } from '../types'
 
 /**
  * Does a walkthrough of questions and returns the answers as an object.
  *
- * @param {Object} context The gluegun context.
+ * @param {Object} toolbox The gluegun toolbox.
  * @returns {Object} The answers.
  */
-const walkthrough = async context => {
+const walkthrough = async (toolbox: IgniteToolbox) => {
   const minOptions = { template: 'No', command: 'No' }
   const maxOptions = { template: 'Yes', command: 'Yes' }
-  if (context.parameters.options.min) {
+  if (toolbox.parameters.options.min) {
     return minOptions
   }
-  if (context.parameters.options.max) {
+  if (toolbox.parameters.options.max) {
     return maxOptions
   }
 
   // Okay, we'll ask one by one, fine
-  return context.prompt.ask([
+  return toolbox.prompt.ask([
     {
       name: 'boilerplate',
       message: 'Is this an app boilerplate plugin?',
@@ -47,15 +44,15 @@ const walkthrough = async context => {
 /**
  * Creates a new folder with the plugin files.
  *
- * @param {Object} context The gluegun context.
+ * @param {Object} toolbox The gluegun toolbox.
  */
-const createNewPlugin = async context => {
-  const { parameters, print, ignite, strings } = context
-  const pluginName = validateName(parameters.third, context)
+const createNewPlugin = async (toolbox: IgniteToolbox) => {
+  const { parameters, print, ignite, strings, meta } = toolbox
+  const pluginName = validateName(parameters.third, toolbox)
   const name = strings.pascalCase(pluginName.replace(/^ignite-/, ''))
 
   // Plugin generation walkthrough
-  const answers = await walkthrough(context)
+  const answers = await walkthrough(toolbox)
 
   // Here we go!
   print.info(`Creating new plugin: ${pluginName}`)
@@ -97,11 +94,11 @@ const createNewPlugin = async context => {
   }
 
   // copy over the files
-  await ignite.copyBatch(context, copyJobs, {
+  await ignite.copyBatch(toolbox, copyJobs, {
     name,
     pluginName,
     answers,
-    igniteVersion: ignite.version,
+    igniteVersion: meta.version(),
     isGenerator: answers.command === 'Yes',
   })
 }
@@ -109,9 +106,9 @@ const createNewPlugin = async context => {
 /**
  * Shows the command help.
  *
- * @param {Object} context The gluegun context.
+ * @param {Object} toolbox The gluegun toolbox.
  */
-const showHelp = context => {
+const showHelp = (toolbox: IgniteToolbox) => {
   const instructions = `
 Generates an Ignite CLI-compatible plugin in the current folder.
 Generally, you would run this from ./YourApp/ignite/plugins/
@@ -122,21 +119,25 @@ Commands:
 
 Example:
   ignite plugin new ignite-mobx`
-  context.print.info(instructions)
+  toolbox.print.info(instructions)
   process.exit(exitCodes.OK)
 }
 
-module.exports = async function(context) {
-  const { parameters } = context
+module.exports = {
+  alias: ['p'],
+  description: 'Manages ignite plugins',
+  run: async function(toolbox: IgniteToolbox) {
+    const { parameters } = toolbox
 
-  switch (parameters.second) {
-    case 'new':
-      await createNewPlugin(context)
-      break
+    switch (parameters.second) {
+      case 'new':
+        await createNewPlugin(toolbox)
+        break
 
-    case 'help':
-    default:
-      showHelp(context)
-      break
-  }
+      case 'help':
+      default:
+        showHelp(toolbox)
+        break
+    }
+  },
 }

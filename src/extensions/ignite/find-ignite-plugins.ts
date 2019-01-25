@@ -1,11 +1,11 @@
-import { IgnitePlugin } from '../../types'
+import { IgnitePlugin, IgniteToolbox } from '../../types'
 
-export default (plugin, command, context) => {
+export default (toolbox: IgniteToolbox) => {
   // gluegun stuff
   const {
     runtime,
     filesystem: { separator },
-  } = context
+  } = toolbox
 
   // how to identify ignite plugins
   const ignitePrefixed = (p: IgnitePlugin) => p.name.startsWith('ignite-') // propSatisfies(startsWith('ignite-'), 'name')
@@ -24,5 +24,5 @@ export default (plugin, command, context) => {
    *
    * @returns {Plugin[]} - an array of ignite plugins
    */
-  return () => getIgnitePlugins(runtime.plugins)
+  return () => getIgnitePlugins(runtime.plugins as IgnitePlugin[])
 }

@@ -1,9 +1,8 @@
-// @cliHidden true
-
 import detectInstall from '../lib/detect-install'
 import isIgniteDirectory from '../lib/is-ignite-directory'
 import importPlugin from '../lib/import-plugin'
 import exitCodes from '../lib/exit-codes'
+import { IgniteToolbox } from '../types'
 
 /**
  * Installs and runs an ignite boilerplate.
@@ -22,70 +21,71 @@ import exitCodes from '../lib/exit-codes'
  * possible to do that, but we had some problems with it.  This became the
  * "at least it works" solution.
  *
- * @param {any} context - The gluegun context.
+ * @param {any} toolbox - The gluegun toolbox.
  */
-async function installBoilerplate(context) {
-  const { print, ignite, filesystem } = context
+module.exports = {
+  hidden: true,
+  run: async function installBoilerplate(toolbox: IgniteToolbox) {
+    const { print, ignite, filesystem } = toolbox
 
-  ignite.log('running boilerplate-install command')
+    ignite.log('running boilerplate-install command')
 
-  // we cannot be in an ignite directory
-  if (isIgniteDirectory(process.cwd())) {
-    print.error('The `ignite boilerplate-install` command must be run in an ignite-compatible directory.')
-    process.exit(exitCodes.NOT_IGNITE_PROJECT)
-  }
+    // we cannot be in an ignite directory
+    if (isIgniteDirectory(process.cwd())) {
+      print.error('The `ignite boilerplate-install` command must be run in an ignite-compatible directory.')
+      process.exit(exitCodes.NOT_IGNITE_PROJECT)
+    }
 
-  // determine where the package comes from
-  const installSource = detectInstall(context)
-  const { moduleName } = installSource
-  const modulePath = `${process.cwd()}/node_modules/${moduleName}`
-  const boilerplateJs = modulePath + '/boilerplate.js'
+    // determine where the package comes from
+    const installSource = detectInstall(toolbox)
+    const { moduleName } = installSource
+    const modulePath = `${process.cwd()}/node_modules/${moduleName}`
+    const boilerplateJs = modulePath + '/boilerplate.js'
 
-  // install the plugin
-  const exitCode = await importPlugin(context, installSource)
-  if (exitCode) {
-    process.exit(exitCode)
-  }
+    // install the plugin
+    const exitCode = await importPlugin(toolbox, installSource)
+    if (exitCode) {
+      process.exit(exitCode)
+    }
 
-  // start the spinner
-  const spinner = print.spin('installing boilerplate')
+    // start the spinner
+    const spinner = print.spin('installing boilerplate')
 
-  // ensure we can find the boilerplate.js file
-  if (!filesystem.exists(boilerplateJs)) {
-    spinner.fail(`${moduleName} does not have a boilerplate.js`)
-    process.exit(exitCodes.PLUGIN_INVALID)
-  }
+    // ensure we can find the boilerplate.js file
+    if (!filesystem.exists(boilerplateJs)) {
+      spinner.fail(`${moduleName} does not have a boilerplate.js`)
+      process.exit(exitCodes.PLUGIN_INVALID)
+    }
 
-  // load the boilerplate.js module
-  let pluginModule
-  try {
-    pluginModule = require(`${modulePath}/boilerplate.js`)
-  } catch (e) {
-    print.error('Error call stack:')
-    print.error(e.stack)
-    spinner.fail(`error loading the boilerplate`)
-    process.exit(exitCodes.PLUGIN_INVALID)
-  }
+    // load the boilerplate.js module
+    let pluginModule
+    try {
+      pluginModule = require(`${modulePath}/boilerplate.js`)
+    } catch (e) {
+      print.error('Error call stack:')
+      print.error(e.stack)
+      spinner.fail(`error loading the boilerplate`)
+      process.exit(exitCodes.PLUGIN_INVALID)
+    }
 
-  // must have an `install` function
-  if (!pluginModule.hasOwnProperty('install')) {
-    spinner.fail(`boilerplate.js is missing a 'install' function`)
-    process.exit(exitCodes.PLUGIN_INVALID)
-  }
+    // must have an `install` function
+    if (!pluginModule.hasOwnProperty('install')) {
+      spinner.fail(`boilerplate.js is missing a 'install' function`)
+      process.exit(exitCodes.PLUGIN_INVALID)
+    }
 
-  // set the path to the current running ignite plugin
-  ignite.setIgnitePluginPath(modulePath)
+    // set the path to the current running ignite plugin
+    ignite.setIgnitePluginPath(modulePath)
 
-  // stop the spinner
-  spinner.stop()
+    // stop the spinner
+    spinner.stop()
 
-  // run the boilerplate
-  try {
-    await pluginModule.install(context)
-  } catch (e) {
-    print.error(`an error occured while installing ${moduleName} boilerplate.`)
-    print.error(e)
-  }
+    // run the boilerplate
+    try {
+      await pluginModule.install(toolbox)
+    } catch (e) {
+      print.error(`an error occured while installing ${moduleName} boilerplate.`)
+      print.error(e)
+    }
+  },
 }
-
-module.exports = installBoilerplate

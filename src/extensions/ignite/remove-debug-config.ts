@@ -1,13 +1,14 @@
 import exitCodes from '../../lib/exit-codes'
+import { IgniteToolbox } from '../../types'
 
-export default (plugin, command, context) => {
+export default (toolbox: IgniteToolbox) => {
   /**
    * Remove Debug Config setting
    *
    * @param {string}  key Key of setting to be removed
    */
   function removeDebugConfig(key) {
-    const { print, filesystem, patching } = context
+    const { print, filesystem, ignite } = toolbox
     const debugConfig = `${process.cwd()}/App/Config/DebugConfig.js`
 
     if (!filesystem.exists(debugConfig)) {
@@ -15,8 +16,8 @@ export default (plugin, command, context) => {
       process.exit(exitCodes.GENERIC)
     }
 
-    if (patching.isInFile(debugConfig, key)) {
-      patching.replaceInFile(debugConfig, key, '')
+    if (ignite.patching.isInFile(debugConfig, key)) {
+      ignite.patching.replaceInFile(debugConfig, key, '')
     } else {
       print.warning(`Debug Setting ${key} not found.`)
     }

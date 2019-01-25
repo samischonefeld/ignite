@@ -1,11 +1,13 @@
+import { IgniteToolbox } from '../../types'
+
 const path = require('path')
 
-export default (plugin, command, context) => {
+export default (toolbox: IgniteToolbox) => {
   /**
    * Generates an example for use with the dev screens.
    */
   async function addPluginComponentExample(fileName: string, props: Object = {}) {
-    const { filesystem, ignite, print, template } = context
+    const { filesystem, ignite, print, template } = toolbox
     const { ignitePluginPath } = ignite
     const config = ignite.loadIgniteConfig()
 
@@ -27,7 +29,7 @@ export default (plugin, command, context) => {
 
       // generate the file
       const templatePath = ignitePluginPath() ? `${ignitePluginPath()}/templates` : `templates`
-      template.generate({
+      await template.generate({
         directory: templatePath,
         template: templateFile,
         target: `ignite/Examples/Components/${fileNameNoExt}`,

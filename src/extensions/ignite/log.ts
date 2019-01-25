@@ -1,6 +1,7 @@
 import * as PrettyError from 'pretty-error'
+import { IgniteToolbox } from '../../types'
 
-export default (plugin, command, context) => {
+export default (toolbox: IgniteToolbox) => {
   /**
    * Prints a debug message to the console.  Used when the user wants to run in --debug.
    *
@@ -8,11 +9,12 @@ export default (plugin, command, context) => {
    */
   const pe = new PrettyError()
   function log(message) {
+    const { parameters, print } = toolbox
     // jet if we're not running in debug mode
-    if (!context.parameters.options.debug) return
+    if (!parameters.options.debug) return
 
     const date = new Date().toISOString().slice(11, 19)
-    const prefix = context.print.colors.muted(date) + ' ' + context.print.colors.magenta('[ignite]')
+    const prefix = print.colors.muted(date) + ' ' + print.colors.magenta('[ignite]')
 
     if (typeof message === 'object') {
       console.log(`${prefix}`)

@@ -1,4 +1,6 @@
-export default (plugin, command, context) => {
+import { IgniteToolbox } from '../../types'
+
+export default (toolbox: IgniteToolbox) => {
   /**
    * The current executing ignite plugin path.
    */

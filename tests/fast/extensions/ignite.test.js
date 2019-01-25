@@ -5,7 +5,7 @@ test('has the right interface', () => {
   expect(typeof attach).toBe('function')
   const plugin = null
   const command = null
-  const context = {
+  const toolbox = {
     print: {},
     parameters: {
       options: {},
@@ -17,7 +17,9 @@ test('has the right interface', () => {
       separator: path.sep,
     },
   }
-  const extension = attach(plugin, command, context)
+
+  attach(toolbox)
+  const extension = toolbox.ignite
 
   expect(typeof extension.ignitePluginPath).toBe('function')
   expect(typeof extension.setIgnitePluginPath).toBe('function')
@@ -37,7 +39,5 @@ test('has the right interface', () => {
   expect(typeof extension.setDebugConfig).toBe('function')
   expect(typeof extension.removeDebugConfig).toBe('function')
   expect(typeof extension.patchInFile).toBe('function')
-  expect(typeof extension.generate).toBe('function')
   expect(typeof extension.log).toBe('function')
-  expect(typeof extension.version).toBe('string')
 })

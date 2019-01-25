@@ -1,17 +1,18 @@
 import exitCodes from './exit-codes'
 import fetchPluginRegistry from './fetch-plugin-registry'
+import { IgniteToolbox } from '../types'
 
 /**
  * Shows a list of known plugins.
  *
- * @param {Object} context The gluegun context.
+ * @param {Object} toolbox The gluegun toolbox.
  */
-module.exports = async function(context) {
+export default async function(toolbox: IgniteToolbox) {
   const { pipe, keys, filter, map } = require('ramda')
 
-  const { print, parameters } = context
+  const { print, parameters } = toolbox
   const { colors, newline, info, table, error } = print
-  const directory = await fetchPluginRegistry(context)
+  const directory = await fetchPluginRegistry(toolbox)
   const search = parameters.second
 
   const pluginTable = pipe(

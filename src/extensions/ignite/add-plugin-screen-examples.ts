@@ -1,7 +1,8 @@
 import { reduce, flatten, takeLast, split, map, replace } from 'ramda'
 import * as path from 'path'
+import { IgniteToolbox } from '../../types'
 
-export default (plugin, command, context) => {
+export default (toolbox: IgniteToolbox) => {
   /**
    * Generates example screens for in dev screens.
    *
@@ -19,11 +20,11 @@ export default (plugin, command, context) => {
     files: { title: string; screen: string; ancillary: string[] }[],
     props = Object,
   ) {
-    const { filesystem, ignite, print, template } = context
+    const { filesystem, ignite, print, template } = toolbox
     const { ignitePluginPath } = ignite
 
     const config = ignite.loadIgniteConfig()
-    // consider this being part of context.ignite
+    // consider this being part of toolbox.ignite
     const pluginName = takeLast(1, split(path.sep, ignitePluginPath()))[0]
 
     // currently only supporting 1 form of examples
@@ -43,7 +44,7 @@ export default (plugin, command, context) => {
 
       // generate stamped copy of all template files
       const templatePath = ignitePluginPath() ? `${ignitePluginPath()}/templates` : `templates`
-      map(fileName => {
+      const allFilesGen = allFiles.map(fileName => {
         let templateFile
         if (fileName.endsWith('.ejs')) {
           templateFile = fileName
@@ -56,13 +57,14 @@ export default (plugin, command, context) => {
 
         const fileNameNoExt = path.basename(templateFile, '.ejs')
 
-        template.generate({
+        return template.generate({
           directory: templatePath,
           template: templateFile,
           target: `ignite/Examples/Containers/${pluginName}/${fileNameNoExt}`,
           props,
         })
-      }, allFiles)
+      })
+      await Promise.all(allFilesGen)
 
       // insert screen, route, and buttons in PluginExamples (if exists)
       const destinationPath = `${process.cwd()}/ignite/DevScreens/PluginExamplesScreen.js`

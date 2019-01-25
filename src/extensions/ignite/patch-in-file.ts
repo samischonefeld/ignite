@@ -1,6 +1,8 @@
+import { IgniteToolbox } from '../../types'
+
 const jetpack = require('fs-jetpack')
 
-export default (plugin, command, context) => {
+export default (toolbox: IgniteToolbox) => {
   /**
    * Conditionally places a string into a file before or after another string.
    * TODO: Move to infinitered/gluegun eventually? Plugin or core?
@@ -19,7 +21,9 @@ export default (plugin, command, context) => {
    *
    */
   function patchInFile(file, opts) {
-    const { patching } = context
+    const {
+      ignite: { patching },
+    } = toolbox
 
     const data = jetpack.read(file, 'utf8')
 

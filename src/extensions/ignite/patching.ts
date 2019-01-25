@@ -1,25 +1,12 @@
-// @contextExtension patching
-
 // TODO: migrate to jetpack
 import * as fs from 'fs'
-/**
- * @contextExtension patching
- *
- * @param  {Plugin}     plugin  The plugin that triggered.
- * @param  {Command}    command The current command that is running.
- * @param  {RunContext} context The running context.
- * @return {Function}           A function to attach to the context.
- */
-function attach(plugin, command, context) {
+import { IgniteToolbox } from '../../types'
+
+export default (toolbox: IgniteToolbox) => {
   /**
    * Inserts a given bit of content to a given file at a matched location
-   *
-   * @param {string}  filePath     The path to the file we'll be modifying.
-   * @param {string}  findPattern  The string that identifies the insert location.
-   * @param {string}  content      The content to insert in the file.
-   * @param {boolean} insertAfter  Identifies the location of the content to the matched pattern
    */
-  const insertInFile = (filePath, findPattern, content, insertAfter = true) => {
+  const insertInFile = (filePath: string, findPattern: string, content: string, insertAfter: boolean = true) => {
     // read full file - Not a great idea if we ever touch large files
     const data = fs.readFileSync(filePath, 'utf-8')
     let newContents = ''
@@ -77,13 +64,12 @@ function attach(plugin, command, context) {
    * @param  {string}  findPattern  The string that identifies existence.
    * @return {boolean}              Boolean of success that findPattern was in file.
    */
-  const isInFile = (filePath, findPattern) => {
+  const isInFile = (filePath: string, findPattern: string) => {
     let data = fs.readFileSync(filePath, 'utf-8')
     let finder = new RegExp(`.*${findPattern}.*`, '')
     return !!data.match(finder)
   }
 
-  // return back the feature set
   return {
     prependToFile,
     insertInFile,
@@ -91,5 +77,3 @@ function attach(plugin, command, context) {
     isInFile,
   }
 }
-
-module.exports = attach

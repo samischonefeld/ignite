@@ -1,5 +1,5 @@
 export default async function(context) {
-  const { filesystem, parameters, ignite, print, reactNative } = context
+  const { filesystem, parameters, meta, print, reactNative } = context
   const name = parameters.second
   const spinner = print.spin(`skipping boilerplate`).succeed()
 
@@ -9,7 +9,7 @@ export default async function(context) {
 
   // ignite/ignite.json
   const igniteJson = {
-    createdWith: ignite.version,
+    createdWith: meta.version(),
     boilerplate: 'empty',
     examples: 'none',
   }

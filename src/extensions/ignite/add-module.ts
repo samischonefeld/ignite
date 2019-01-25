@@ -1,5 +1,6 @@
 import { trim } from 'ramda'
 import * as path from 'path'
+import { IgniteToolbox } from '../../types'
 
 export type AddModuleOptions = {
   link?: boolean
@@ -7,18 +8,18 @@ export type AddModuleOptions = {
   version?: string
 }
 
-export default (plugin, command, context) => {
+export default (toolbox: IgniteToolbox) => {
   const getModuleName = (moduleName, options: AddModuleOptions) => {
     let name
     if (options.version) {
       name = `${moduleName}@${options.version}`
-    } else if (context.parameters.second.includes(path.sep)) {
+    } else if (toolbox.parameters.second.includes(path.sep)) {
       // If adding from a directory, then display a deprecation warning.
       // This is to alert plugin authors to the issue without cluttering others' output.
-      context.print.warning(`DEPRECATION WARNING:`)
-      context.print.warning(`Plugin should specify specific version for NPM module ${moduleName} in addModule call.`)
-      context.print.warning(`In your addModule call, add the following:`)
-      context.print.warning(`   await ignite.addModule(NPM_MODULE_NAME, { version: 'VERSION HERE' })`)
+      toolbox.print.warning(`DEPRECATION WARNING:`)
+      toolbox.print.warning(`Plugin should specify specific version for NPM module ${moduleName} in addModule call.`)
+      toolbox.print.warning(`In your addModule call, add the following:`)
+      toolbox.print.warning(`   await ignite.addModule(NPM_MODULE_NAME, { version: 'VERSION HERE' })`)
     }
     return name || moduleName
   }
@@ -27,7 +28,7 @@ export default (plugin, command, context) => {
    * Adds a npm-based module to the project.
    */
   async function addModule(moduleName: string, options: AddModuleOptions = {}) {
-    const { print, system, ignite } = context
+    const { print, system, ignite } = toolbox
     const { useYarn } = ignite
     const moduleFullName = getModuleName(moduleName, options)
 

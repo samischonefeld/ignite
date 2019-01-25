@@ -1,3 +1,4 @@
+import { IgniteToolbox } from '../../types'
 import * as jetpack from 'fs-jetpack'
 import { uniq } from 'ramda'
 
@@ -5,7 +6,7 @@ import { uniq } from 'ramda'
 const isWindows = process.platform === 'win32'
 const homeDir = process.env[isWindows ? 'USERPROFILE' : 'HOME']
 
-export default (plugin, command, context) => {
+export default (toolbox: IgniteToolbox) => {
   // grab ~/.ignite/overrides
   const overrideDir: string = jetpack.path(`${homeDir}`, '.ignite', 'overrides')
 

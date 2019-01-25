@@ -1,7 +1,9 @@
-export type IgniteToolboxTool = {
+import { GluegunToolbox } from 'gluegun'
+
+export type IgniteTools = {
   ignitePluginPath: Function
   setIgnitePluginPath: Function
-  useYarn: Function
+  useYarn: boolean
   loadIgniteConfig: Function
   saveIgniteConfig: Function
   setIgniteConfig: Function
@@ -11,40 +13,29 @@ export type IgniteToolboxTool = {
   addAndroidPermission: Function
   removeModule: Function
   copyBatch: Function
-  addComponentExample: Function
   addPluginComponentExample: Function
-  removeComponentExample: Function
   removePluginComponentExample: Function
-  addScreenExamples: Function
   addPluginScreenExamples: Function
-  removeScreenExamples: Function
   removePluginScreenExamples: Function
   removeAndroidPermission: Function
   setDebugConfig: Function
   removeDebugConfig: Function
   patchInFile: Function
-  generate: Function
   log: Function
-  version: Function
-  pluginOverrides: Function
+  pluginOverrides: string[]
+  patching: {
+    prependToFile
+    insertInFile
+    replaceInFile
+    isInFile
+  }
 }
 
-export type IgniteRuntime = {
-  run: (args: { pluginName: string; rawCommand: string; options: any }) => Promise<any>
+export interface IgniteToolbox extends GluegunToolbox {
+  ignite: IgniteTools
 }
 
-export type IgniteToolbox = {
-  ignite: IgniteToolboxTool
-  runtime: IgniteRuntime
-  filesystem: any
-  print: any
-  system: any
-  prompt: any
-  parameters: any
-  strings: any
-}
-
-export type IgnitePlugin = {
+export interface IgnitePlugin {
   name: string
   directory: string
   commands: any[]

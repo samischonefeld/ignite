@@ -1,9 +1,10 @@
 import { dissoc } from 'ramda'
+import { IgniteToolbox } from '../../types'
 
 const igniteConfigFilename = `${process.cwd()}/ignite/ignite.json`
 
-export default (plugin, command, context) => {
-  const { filesystem } = context
+export default (toolbox: IgniteToolbox) => {
+  const { filesystem } = toolbox
 
   /**
    * Reads the contents of the ignite/ignite.json configuration.

@@ -1,16 +1,17 @@
 import { test, trim } from 'ramda'
 import exitCodes from '../lib/exit-codes'
+import { IgniteToolbox } from '../types'
 
 // DEPRECATED: Please specify React Native version when invoking install
 // Example: const rnInstall = await reactNative.install({ name, version: '0.42.0' })
 const REACT_NATIVE_VERSION = '0.42.0'
 
 /**
- * Attach this extension to the context.
+ * Attach this extension to the toolbox.
  */
-function attach(plugin, command, context) {
+function attach(toolbox: IgniteToolbox) {
   // fist-full o features
-  const { parameters, print, system, filesystem, strings, ignite } = context
+  const { parameters, print, system, filesystem, strings, ignite } = toolbox
   const { log } = ignite
 
   /**
