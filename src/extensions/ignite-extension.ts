@@ -7,7 +7,7 @@ import * as ignitePluginPathExt from './ignite/ignitePluginPath'
 import * as igniteConfigExt from './ignite/igniteConfig'
 import * as findIgnitePluginsExt from './ignite/findIgnitePlugins'
 import * as addModuleExt from './ignite/addModule'
-import * as addAndroidPermissionExt from './ignite/addAndroidPermission'
+import addAndroidPermissionExt from './ignite/add-android-permission'
 import * as removeModuleExt from './ignite/removeModule'
 import * as addScreenExamplesExt from './ignite/addScreenExamples' // Deprecated 3/2/17, Ignite CLI Beta
 import * as addPluginScreenExamplesExt from './ignite/addPluginScreenExamples'
