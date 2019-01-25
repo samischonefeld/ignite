@@ -1,4 +1,4 @@
-const attach = require('../../../src/extensions/ignite.js')
+const attach = require('../../../src/extensions/ignite')
 const path = require('path')
 
 test('has the right interface', () => {

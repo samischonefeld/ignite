@@ -1,7 +1,7 @@
 // @contextExtension patching
 
 // TODO: migrate to jetpack
-const fs = require('fs')
+import * as fs from 'fs'
 /**
  * @contextExtension patching
  *
