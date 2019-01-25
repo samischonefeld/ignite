@@ -2,7 +2,7 @@
 // @cliAlias g
 // ----------------------------------------------------------------------------
 
-const {
+import {
   prop,
   groupBy,
   map,
@@ -17,10 +17,10 @@ const {
   replace,
   trim,
   isEmpty,
-} = require('ramda')
-const { dotPath } = require('ramdasauce')
-const isIgniteDirectory = require('../lib/isIgniteDirectory')
-const exitCodes = require('../lib/exitCodes')
+} from 'ramda'
+import { dotPath } from 'ramdasauce'
+import isIgniteDirectory from '../lib/isIgniteDirectory'
+import exitCodes from '../lib/exitCodes'
 
 /**
  * Runs a generator.
