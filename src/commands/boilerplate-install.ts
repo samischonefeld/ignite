@@ -1,9 +1,9 @@
 // @cliHidden true
 
-const detectInstall = require('../lib/detectInstall')
-const isIgniteDirectory = require('../lib/isIgniteDirectory')
-const importPlugin = require('../lib/importPlugin')
-const exitCodes = require('../lib/exitCodes')
+import detectInstall from '../lib/detectInstall'
+import isIgniteDirectory from '../lib/isIgniteDirectory'
+import importPlugin from '../lib/importPlugin'
+import exitCodes from '../lib/exitCodes'
 
 /**
  * Installs and runs an ignite boilerplate.

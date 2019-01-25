@@ -1,8 +1,9 @@
 // @cliDescription Checks your dev environment for dependencies.
 // ----------------------------------------------------------------------------
 
-const { split, last, replace, head, match } = require('ramda')
-const os = require('os')
+import { split, last, replace, head, match } from 'ramda'
+import * as os from 'os'
+
 const isWindows = process.platform === 'win32'
 const isMac = process.platform === 'darwin'
 

@@ -32,7 +32,7 @@ var debugMode = process.argv.indexOf('--debug') !== -1 || process.argv.indexOf('
 
 if (debugMode) {
   // lets check our global dependencies
-  var enforceGlobalDependency = require('./enforceGlobalDependency')
+  var enforceGlobalDependency = require('./enforce-global')
   var exitCodes = require('../lib/exitCodes')
 
   // react-native-cli

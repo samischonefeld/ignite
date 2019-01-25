@@ -1,3 +1,4 @@
+// @ts-nocheck
 // NOTE: this file is intentionally written with es3
 var shell = require('shelljs')
 var semver = require('semver')

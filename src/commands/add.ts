@@ -2,21 +2,18 @@
 // @cliAlias a
 // ----------------------------------------------------------------------------
 
-const R = require('ramda')
-const detectedChanges = require('../lib/detectedChanges')
-const detectInstall = require('../lib/detectInstall')
-const importPlugin = require('../lib/importPlugin')
-const isIgniteDirectory = require('../lib/isIgniteDirectory')
-const findPluginFile = require('../lib/findPluginFile')
-const exitCodes = require('../lib/exitCodes')
+import R from 'ramda'
+import detectedChanges from '../lib/detectedChanges'
+import detectInstall from '../lib/detectInstall'
+import importPlugin from '../lib/importPlugin'
+import isIgniteDirectory from '../lib/isIgniteDirectory'
+import findPluginFile from '../lib/findPluginFile'
+import exitCodes from '../lib/exitCodes'
 
 /**
  * Removes the ignite plugin.
- *
- * @param {string} moduleName The name of the ignite-* plugin.
- * @param {Object} context The gluegun context.
  */
-const removeIgnitePlugin = async (moduleName, context) => {
+const removeIgnitePlugin = async (moduleName: string, context) => {
   const { print, system, ignite } = context
 
   print.warning('Rolling back...run with --debug to see more info')
@@ -136,7 +133,7 @@ Examples:
         log(`running add() on ignite plugin`)
         await pluginModule.add(context)
 
-        const perfDuration = parseInt((new Date().getTime() - perfStart) / 10) / 100
+        const perfDuration = parseInt(((new Date().getTime() - perfStart) / 10).toString(), 10) / 100
 
         spinner.text = `added ${print.colors.cyan(moduleName)} in ${perfDuration}s`
         spinner.start()

@@ -1,6 +1,6 @@
 // @cliDescription Attaches Ignite CLI to an existing project.
 
-const isIgniteDirectory = require('../lib/isIgniteDirectory')
+import isIgniteDirectory from '../lib/isIgniteDirectory'
 
 module.exports = async function(context) {
   const { filesystem, ignite, print } = context
