@@ -3,7 +3,7 @@
 
 // bring in each of the constituents
 import * as shell from 'shelljs'
-import * as ignitePluginPathExt from './ignite/ignitePluginPath'
+import ignitePluginPathExt from './ignite/ignite-plugin-path'
 import igniteConfigExt from './ignite/ignite-config'
 import findIgnitePluginsExt from './ignite/find-ignite-plugins'
 import addModuleExt from './ignite/add-module'
