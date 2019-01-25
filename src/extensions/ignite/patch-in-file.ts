@@ -1,6 +1,6 @@
 const jetpack = require('fs-jetpack')
 
-module.exports = (plugin, command, context) => {
+export default (plugin, command, context) => {
   /**
    * Conditionally places a string into a file before or after another string.
    * TODO: Move to infinitered/gluegun eventually? Plugin or core?

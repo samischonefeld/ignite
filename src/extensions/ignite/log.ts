@@ -1,6 +1,6 @@
-const PrettyError = require('pretty-error')
+import * as PrettyError from 'pretty-error'
 
-module.exports = (plugin, command, context) => {
+export default (plugin, command, context) => {
   /**
    * Prints a debug message to the console.  Used when the user wants to run in --debug.
    *

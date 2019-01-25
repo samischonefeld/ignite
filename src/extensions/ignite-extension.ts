@@ -21,11 +21,11 @@ import * as removePluginComponentExampleExt from './ignite/removePluginComponent
 import * as removeAndroidPermissionExt from './ignite/removeAndroidPermission'
 import * as setDebugConfigExt from './ignite/setDebugConfig'
 import * as removeDebugConfigExt from './ignite/removeDebugConfig'
-import * as patchInFileExt from './ignite/patchInFile'
+import patchInFileExt from './ignite/patch-in-file'
 import generateExt from './ignite/generate'
-import * as logExt from './ignite/log'
+import logExt from './ignite/log'
 import * as versionExt from './ignite/version'
-import * as pluginOverridesExt from './ignite/pluginOverrides'
+import pluginOverridesExt from './ignite/plugin-overrides'
 
 /**
  * Adds ignite goodies
