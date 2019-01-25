@@ -1,5 +1,5 @@
-const { test, trim } = require('ramda')
-const exitCodes = require('../lib/exitCodes')
+import { test, trim } from 'ramda'
+import * as exitCodes from '../lib/exitCodes'
 
 // DEPRECATED: Please specify React Native version when invoking install
 // Example: const rnInstall = await reactNative.install({ name, version: '0.42.0' })
@@ -7,11 +7,6 @@ const REACT_NATIVE_VERSION = '0.42.0'
 
 /**
  * Attach this extension to the context.
- *
- * @param   {any} plugin  - The current running plugin.
- * @param   {any} command - The current running command.
- * @param   {any} context - The active context.
- * @returns {any}         - The public-facing features this supports.
  */
 function attach(plugin, command, context) {
   // fist-full o features
@@ -20,15 +15,14 @@ function attach(plugin, command, context) {
 
   /**
    * Installs React Native.
-   *
-   * @param {Object}  opts          - The options to pass to install react native.
-   * @param {string}  opts.name     - What to call this project.
-   * @param {string}  opts.version  - The React Native version to install (if we care).
-   * @param {string}  opts.template - The template to pass to React Native (if any).
-   * @param {boolean} opts.skipJest - Should we bypass jest?
-   * @returns {number}              - The error code we should exit with if non-0.
    */
-  async function install(opts = {}) {
+  async function install(
+    opts: { name?: string; version?: string; template?: string; skipJest?: boolean; useNpm?: boolean } = {},
+  ): Promise<{
+    exitCode: number
+    version: string
+    template: string
+  }> {
     //  grab the name & version
     const name = opts.name || parameters.third
     let reactNativeVersion = opts.version || parameters.options['react-native-version']
@@ -104,7 +98,7 @@ function attach(plugin, command, context) {
       }
     }
 
-    const perfDuration = parseInt((new Date().getTime() - perfStart) / 10) / 100
+    const perfDuration = parseInt(((new Date().getTime() - perfStart) / 10).toString(), 10) / 100
 
     // good news everyone!
     const successMessage = `added ${print.colors.cyan(
