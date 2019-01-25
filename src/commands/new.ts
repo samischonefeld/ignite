@@ -115,15 +115,15 @@ async function command(context) {
   if ((boilerplateName || '').includes(path.sep)) {
     boilerplateName = filesystem.path(boilerplateName)
   }
+  const bowser = 'Bowser (React Navigation, MobX State Tree, & TypeScript) - RECOMMENDED'
   const andross = 'Andross (React Navigation, Redux, & Redux Saga)'
-  const bowser = 'Bowser (React Navigation, MobX State Tree, & TypeScript)'
   if (!boilerplateName) {
     const { boilerplate } = await context.prompt.ask([
       {
         name: 'boilerplate',
         message: 'Which boilerplate would you like to use?',
         type: 'list',
-        choices: [andross, bowser],
+        choices: [bowser, andross],
       },
     ])
     switch (boilerplate) {
