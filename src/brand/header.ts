@@ -1,6 +1,6 @@
-const { print } = require('gluegun')
+import { print } from 'gluegun'
 
-module.exports = function() {
+module.exports = () => {
   const {
     info,
     colors: { red, yellow },
