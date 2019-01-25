@@ -6,16 +6,16 @@ import * as shell from 'shelljs'
 import * as ignitePluginPathExt from './ignite/ignitePluginPath'
 import * as igniteConfigExt from './ignite/igniteConfig'
 import * as findIgnitePluginsExt from './ignite/findIgnitePlugins'
-import * as addModuleExt from './ignite/addModule'
+import addModuleExt from './ignite/add-module'
 import addAndroidPermissionExt from './ignite/add-android-permission'
 import * as removeModuleExt from './ignite/removeModule'
 import * as addScreenExamplesExt from './ignite/addScreenExamples' // Deprecated 3/2/17, Ignite CLI Beta
-import * as addPluginScreenExamplesExt from './ignite/addPluginScreenExamples'
+import addPluginScreenExamplesExt from './ignite/add-plugin-screen-examples'
 import * as removeScreenExamplesExt from './ignite/removeScreenExamples' // Deprecated 3/2/17, Ignite CLI Beta
 import * as removePluginScreenExamplesExt from './ignite/removePluginScreenExamples'
 import * as copyBatchExt from './ignite/copyBatch'
-import * as addComponentExampleExt from './ignite/addComponentExample' // Deprecated 3/2/17, Ignite CLI Beta
-import * as addPluginComponentExampleExt from './ignite/addPluginComponentExample'
+import addComponentExampleExt from './ignite/add-component-example' // Deprecated 3/2/17, Ignite CLI Beta
+import addPluginComponentExampleExt from './ignite/add-plugin-component-example'
 import * as removeComponentExampleExt from './ignite/removeComponentExample' // Deprecated 3/2/17, Ignite CLI Beta
 import * as removePluginComponentExampleExt from './ignite/removePluginComponentExample'
 import * as removeAndroidPermissionExt from './ignite/removeAndroidPermission'

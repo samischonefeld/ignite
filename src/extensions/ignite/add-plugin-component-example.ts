@@ -1,13 +1,10 @@
 const path = require('path')
 
-module.exports = (plugin, command, context) => {
+export default (plugin, command, context) => {
   /**
    * Generates an example for use with the dev screens.
-   *
-   * @param {string} fileName - The js file to create. (.ejs will be appended to pick up the template.)
-   * @param {Object} props - The properties to use for template expansion.
    */
-  async function addPluginComponentExample(fileName, props = {}) {
+  async function addPluginComponentExample(fileName: string, props: Object = {}) {
     const { filesystem, ignite, print, template } = context
     const { ignitePluginPath } = ignite
     const config = ignite.loadIgniteConfig()

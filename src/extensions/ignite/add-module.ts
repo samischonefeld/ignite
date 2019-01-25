@@ -1,8 +1,14 @@
-const { trim } = require('ramda')
-const path = require('path')
+import { trim } from 'ramda'
+import * as path from 'path'
 
-module.exports = (plugin, command, context) => {
-  const getModuleName = (moduleName, options) => {
+export type AddModuleOptions = {
+  link?: boolean
+  dev?: boolean
+  version?: string
+}
+
+export default (plugin, command, context) => {
+  const getModuleName = (moduleName, options: AddModuleOptions) => {
     let name
     if (options.version) {
       name = `${moduleName}@${options.version}`
@@ -19,14 +25,8 @@ module.exports = (plugin, command, context) => {
 
   /**
    * Adds a npm-based module to the project.
-   *
-   * @param {string}  moduleName - The module name as found on npm.
-   * @param {Object}  options - Various installing flags.
-   * @param {boolean} options.link - Should we run `react-native link`?
-   * @param {boolean} options.dev - Should we install as a dev-dependency?
-   * @param {boolean} options.version - Install a particular version?
    */
-  async function addModule(moduleName, options = {}) {
+  async function addModule(moduleName: string, options: AddModuleOptions = {}) {
     const { print, system, ignite } = context
     const { useYarn } = ignite
     const moduleFullName = getModuleName(moduleName, options)
