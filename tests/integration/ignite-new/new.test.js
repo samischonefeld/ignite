@@ -48,6 +48,4 @@ test('spins up a min app and performs various checks', async done => {
   expect(filesystem.read(`${process.cwd()}/App/Components/Sporkified.js`)).toBe('SPORKED!')
 
   done()
-
-  // TODO: add more end-to-end tests here
 })

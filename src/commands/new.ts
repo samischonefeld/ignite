@@ -20,7 +20,7 @@ module.exports = {
     const { log } = ignite
 
     // grab the project name
-    const projectName = parameters.first
+    const projectName = (parameters.first || '').toString()
 
     // check for kebabs
     const isKebabCase = not(isEmpty(match(/.-/g, `${projectName}`)))
