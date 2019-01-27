@@ -4,7 +4,7 @@ import { IgniteToolbox } from '../types'
 
 // DEPRECATED: Please specify React Native version when invoking install
 // Example: const rnInstall = await reactNative.install({ name, version: '0.42.0' })
-const REACT_NATIVE_VERSION = '0.42.0'
+const REACT_NATIVE_VERSION = '0.58.0'
 
 /**
  * Attach this extension to the toolbox.
@@ -25,7 +25,7 @@ function attach(toolbox: IgniteToolbox) {
     template: string
   }> {
     //  grab the name & version
-    const name = opts.name || parameters.third
+    const name = opts.name || parameters.first
     let reactNativeVersion = opts.version || parameters.options['react-native-version']
     if (!reactNativeVersion) {
       print.warning(`💩  unspecified react native version in ignite cli has been deprecated `)
@@ -121,9 +121,7 @@ function attach(toolbox: IgniteToolbox) {
     }
   }
 
-  return {
-    install,
-  }
+  toolbox.reactNative = { install }
 }
 
 module.exports = attach

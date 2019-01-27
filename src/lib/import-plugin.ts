@@ -1,16 +1,13 @@
 import exitCodes from '../lib/exit-codes'
+import { IgniteDetectInstall, IgniteToolbox } from '../types'
 
 /**
  * Install this module.
- *
- * @param {Object} context         The gluegun context
- * @param {Object} opts            The options used to install
- * @param {string} opts.moduleName The module to install
  */
-async function importPlugin(context, opts) {
+async function importPlugin(toolbox: IgniteToolbox, opts: IgniteDetectInstall) {
   const { isEmpty, forEach, trim } = require('ramda')
   const { moduleName, version, type, directory } = opts
-  const { ignite, system, filesystem } = context
+  const { ignite, system, filesystem } = toolbox
   const { log } = ignite
   const isDirectory = type === 'directory'
   const target = isDirectory ? directory : moduleName
@@ -67,19 +64,15 @@ async function importPlugin(context, opts) {
 /**
  * This does everything around the periphery of importing a plugin such
  * as UI and safety checks.
- *
- * @param {any} context - The gluegun context.
- * @param {any} specs   - The specs of the module to import (sourced from detectInstall)
- * @returns An error code or null.
  */
-export default async function safelyImportPlugin(context, specs) {
+export default async (toolbox: IgniteToolbox, specs: IgniteDetectInstall): Promise<number | void> => {
   const { moduleName } = specs
-  const { print, ignite } = context
+  const { print, ignite } = toolbox
   const spinner = print.spin(`adding ${print.colors.cyan(moduleName)}`)
 
   if (specs.type) {
     try {
-      await importPlugin(context, specs)
+      await importPlugin(toolbox, specs)
     } catch (e) {
       if (e.unavailable) {
         spinner.fail(`${print.colors.bold(moduleName)} is not available on npm.`)

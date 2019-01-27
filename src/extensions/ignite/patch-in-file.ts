@@ -1,31 +1,19 @@
-import { IgniteToolbox } from '../../types'
-
-const jetpack = require('fs-jetpack')
+import { IgniteToolbox, IgnitePatchInFileOptions } from '../../types'
 
 export default (toolbox: IgniteToolbox) => {
+  const { filesystem } = toolbox
+
   /**
    * Conditionally places a string into a file before or after another string.
-   * TODO: Move to infinitered/gluegun eventually? Plugin or core?
-   *
-   * @param {string}   file            File to be patched
-   * @param {Object}   opts            Options
-   * @param {string}   opts.before     Insert before this string
-   * @param {string}   opts.after      Insert after this string
-   * @param {string}   opts.replace    Replace this string
-   * @param {string}   opts.insert     String to be inserted
-   * @param {string}   opts.delete     Delete this string
-   * @param {boolean}  opts.force      Write even if it already exists
    *
    * @example
    *   patchInFile('thing.js', { before: 'bar', insert: 'foo' })
    *
    */
-  function patchInFile(file, opts) {
-    const {
-      ignite: { patching },
-    } = toolbox
+  function patchInFile(file: string, opts: IgnitePatchInFileOptions) {
+    const { ignite } = toolbox
 
-    const data = jetpack.read(file, 'utf8')
+    const data = filesystem.read(file, 'utf8')
 
     // If the file already has insert, no-op unless forced
     // stops accidental double inserts unless you're sure you want that
@@ -39,13 +27,13 @@ export default (toolbox: IgniteToolbox) => {
       if (data.includes(replaceString)) {
         // Replace matching string with new string
         const newContents = data.replace(replaceString, `${newString}`)
-        jetpack.write(file, newContents, { atomic: true })
+        filesystem.write(file, newContents, { atomic: true })
       } else {
         console.warn(`${replaceString} not found`)
       }
     } else {
       // Insert before/after a particular string
-      patching.insertInFile(file, opts.before || opts.after, newString, !!opts.after)
+      ignite.patching.insertInFile(file, opts.before || opts.after, newString, !!opts.after)
     }
   }
 

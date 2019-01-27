@@ -1,4 +1,7 @@
+import { IgniteToolbox, IgniteDetectInstall } from '../types'
 import prependIgnite from './prepend-ignite'
+import packageExtract from './package-extract'
+import * as path from 'path'
 
 /**
  * Detects the type of install the user is requesting for this plugin.
@@ -9,15 +12,12 @@ import prependIgnite from './prepend-ignite'
  *   2. a plugin which lives in a relative or absolute path
  *   3. otherwise let npm hook us up
  *
- * @param  {object} context - an ignite context
  * @return {object}         - specs about the type of install
  */
-export default function detectInstall(context) {
-  const { find } = require('ramda')
-  const path = require('path')
-
+export default function detectInstall(plugin: string, toolbox: IgniteToolbox): IgniteDetectInstall {
   // grab some gluegun goodies
-  const { filesystem, parameters, ignite } = context
+  const { filesystem, ignite } = toolbox
+  const sep = path.sep // why isn't filesystem.separator working here?
 
   // grab the plugin overrides
   const pluginOverrides = (ignite && ignite.pluginOverrides) || []
@@ -29,32 +29,29 @@ export default function detectInstall(context) {
    * @return {boolean}          - True if this is valid; otherwise false.
    */
   const isValidIgnitePluginDirectory = candidate =>
-    filesystem.exists(candidate) === 'dir' && filesystem.exists(`${candidate}${path.sep}package.json`) === 'file'
+    filesystem.exists(candidate) === 'dir' && filesystem.exists(`${candidate}${sep}package.json`) === 'file'
 
-  // the plugin we're trying to install
-  let plugin = parameters.second
+  // Normalize package name
+  let packageName = plugin
+  let packageVersion = undefined
 
-  // extract the package name and (optionally) version
-  let packageName
-  let packageVersion
-  const versionSepRe = /(?<!^|\/)@/
-  const isScoped = plugin.startsWith('@')
-  packageName = plugin.split(versionSepRe)[0]
-  packageVersion = plugin.split(versionSepRe)[1] || null
+  // Check if referring to a path
 
-  // If a path, expand that path. If not, prepend with `ignite-*`.
-  if (packageName.includes(path.sep) && !isScoped) {
+  console.log(plugin, sep)
+  if (plugin.startsWith('.') || plugin.startsWith(sep)) {
     packageName = filesystem.path(packageName)
-  } else if (!isScoped) {
-    packageName = prependIgnite(packageName)
+  } else {
+    // extract the package name and (optionally) version
+    let { name, scoped, version } = packageExtract(plugin)
+    packageName = scoped ? name : prependIgnite(name)
+    packageVersion = version
   }
 
   // do we have overrides?
   if (pluginOverrides.length > 0) {
     // look for the plugin into one of our override paths
-    const foundPath = find(
-      overridePath => isValidIgnitePluginDirectory(`${overridePath}${path.sep}${packageName}`),
-      pluginOverrides,
+    const foundPath = pluginOverrides.find(overridePath =>
+      isValidIgnitePluginDirectory(`${overridePath}${sep}${packageName}`),
     )
 
     // did we find it?

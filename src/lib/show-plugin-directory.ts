@@ -13,7 +13,7 @@ export default async function(toolbox: IgniteToolbox) {
   const { print, parameters } = toolbox
   const { colors, newline, info, table, error } = print
   const directory = await fetchPluginRegistry(toolbox)
-  const search = parameters.second
+  const search = parameters.first
 
   const pluginTable = pipe(
     keys,

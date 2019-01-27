@@ -1,6 +1,6 @@
 export default async function(context) {
   const { filesystem, parameters, meta, print, reactNative } = context
-  const name = parameters.second
+  const name = parameters.first
   const spinner = print.spin(`skipping boilerplate`).succeed()
 
   // attempt to install React Native or die trying

@@ -2,8 +2,9 @@ import isIgniteDirectory from '../lib/is-ignite-directory'
 import exitCodes from '../lib/exit-codes'
 import * as path from 'path'
 import addEmptyBoilerplate from '../lib/add-empty-boilerplate'
-import { trim, isEmpty, match, not, toLower } from 'ramda'
+import { isEmpty, match, not, toLower } from 'ramda'
 import { IgniteToolbox } from '../types'
+import boilerplateInstall from '../lib/boilerplate-install'
 
 /**
  * Creates a new ignite project based on an optional boilerplate.
@@ -14,15 +15,15 @@ module.exports = {
   alias: ['n'],
   description: 'Generate a new React Native project with Ignite CLI.',
   run: async function command(toolbox: IgniteToolbox) {
-    const { parameters, strings, print, system, filesystem, ignite, prompt } = toolbox
+    const { parameters, strings, print, filesystem, ignite, prompt } = toolbox
     const { isBlank, upperFirst, camelCase } = strings
     const { log } = ignite
 
     // grab the project name
-    const projectName = parameters.second
+    const projectName = parameters.first
 
     // check for kebabs
-    const isKebabCase = not(isEmpty(match(/.-/g, projectName || '')))
+    const isKebabCase = not(isEmpty(match(/.-/g, `${projectName}`)))
 
     // camelCase the project name for user example
     const projectNameCamel = upperFirst(camelCase(projectName))
@@ -84,15 +85,17 @@ module.exports = {
     // verify the directory doesn't exist already
     if (filesystem.exists(projectName) === 'dir') {
       print.error(`Directory ${projectName} already exists.`)
-      const askOverwrite = async () => {
-        return prompt.confirm('Do you want to overwrite this directory?')
-      }
-
-      if (parameters.options.overwrite || (await askOverwrite())) {
+      if (parameters.options.overwrite) {
         print.info(`Overwriting ${projectName}...`)
         filesystem.remove(projectName)
       } else {
-        process.exit(exitCodes.DIRECTORY_EXISTS)
+        const overwrite = await prompt.confirm('Do you want to overwrite this directory?')
+        if (overwrite) {
+          print.info(`Overwriting ${projectName}...`)
+          filesystem.remove(projectName)
+        } else {
+          process.exit(exitCodes.DIRECTORY_EXISTS)
+        }
       }
     }
 
@@ -103,7 +106,7 @@ module.exports = {
 
     // skip the boilerplate?
     // NOTE(steve): this expression is intentionally evaluating against false because of
-    // --no-boilerplate and how minimist works.
+    // --no-boilerplate and how the arguments parser works.
     if (parameters.options.boilerplate === false) {
       await addEmptyBoilerplate(toolbox)
       return
@@ -144,7 +147,7 @@ module.exports = {
     process.chdir(projectName)
     log(`switched directory to ${process.cwd()}`)
 
-    // make a temporary package.json file so node stops walking up the diretories
+    // make a temporary package.json file so node stops walking up the directories
     // NOTE(steve): a lot of pain went into this 1 function call
     filesystem.write('package.json', {
       name: 'ignite-shim',
@@ -153,23 +156,10 @@ module.exports = {
       license: 'MIT',
     })
 
-    // pick the inbound cli options
-    const cliOpts = parameters.options
-
-    // turn this back into a string
-    const forwardingOptions = Object.keys(cliOpts)
-      .reduce((src: string, k: string): string => {
-        const v = cliOpts[k]
-        return (v === true ? `--${k} ` : `--${k} ${v} `) + src
-      }, '')
-      .trim()
-
     // let's kick off the template
     let ok = false
     try {
-      const command = trim(`ignite boilerplate-install ${boilerplateName} ${projectName} ${forwardingOptions}`)
-      log(`running boilerplate: ${command}`)
-      await system.exec(command, { stdio: 'inherit' })
+      await boilerplateInstall(toolbox)
       log('finished boilerplate')
       ok = true
     } catch (e) {

@@ -129,7 +129,7 @@ module.exports = {
   run: async function(toolbox: IgniteToolbox) {
     const { parameters } = toolbox
 
-    switch (parameters.second) {
+    switch (parameters.first) {
       case 'new':
         await createNewPlugin(toolbox)
         break

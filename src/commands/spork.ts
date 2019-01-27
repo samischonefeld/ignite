@@ -48,11 +48,11 @@ module.exports = {
 
     // Ask (if necessary)
     let copyFiles
-    if (parameters.second) {
-      if (choices.includes(parameters.second)) {
-        copyFiles = { selectedTemplates: [parameters.second] }
+    if (parameters.first) {
+      if (choices.includes(parameters.first)) {
+        copyFiles = { selectedTemplates: [parameters.first] }
       } else {
-        warning(`${parameters.second} is not a recognized generator template.`)
+        warning(`${parameters.first} is not a recognized generator template.`)
         process.exit(exitCodes.SPORKABLES_NOT_FOUND)
       }
     } else {

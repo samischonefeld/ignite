@@ -12,7 +12,7 @@ module.exports = {
     const { print, parameters } = context
     const { colors, newline, info, table, error } = print
     const directory = await fetchPluginRegistry(context)
-    const name = validateName(parameters.second, context)
+    const name = validateName(parameters.first, context)
     const shortName = name.replace(/^(ignite-)/, '')
     const plugin = directory[name]
 

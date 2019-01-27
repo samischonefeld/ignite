@@ -45,7 +45,7 @@ module.exports = {
     }
 
     // the thing we're trying to install
-    if (strings.isBlank(parameters.second)) {
+    if (strings.isBlank(parameters.first)) {
       const instructions = `An ignite plugin is required.
 
 Examples:
@@ -59,8 +59,8 @@ Examples:
     }
 
     // find out the type of install
-    const specs = detectInstall(toolbox)
-    const moduleName = specs.moduleName as string
+    const specs = detectInstall(parameters.first, toolbox)
+    const moduleName = specs.moduleName
     const modulePath = `${process.cwd()}/node_modules/${moduleName}`
 
     log(`installing ${modulePath} from source ${specs.type}`)

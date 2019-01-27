@@ -139,7 +139,7 @@ module.exports = {
     // TODO: how do we want to handle conflicts?  up above, i'm just calling find()
 
     // the type of template to generate (it's actually the 2nd because we rewrite the pluginName to be first)
-    const type = parameters.second
+    const type = parameters.first
     const registryItem = type ? userRegistry[type] : null
 
     // didn't find what we wanted?

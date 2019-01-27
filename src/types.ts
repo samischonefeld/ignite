@@ -44,3 +44,26 @@ export interface IgnitePlugin {
 export type IgniteConfig = {
   generators?: string[]
 }
+
+export type IgniteDetectInstall = {
+  moduleName: string
+  type: 'directory' | 'npm'
+  directory?: string
+  override?: boolean
+  version?: string
+}
+
+export type IgniteNPMPackageParts = {
+  name: string
+  scoped: boolean
+  version?: string
+}
+
+export type IgnitePatchInFileOptions = {
+  before?: string
+  after?: string
+  replace?: string
+  insert?: string
+  delete?: string
+  force?: boolean
+}

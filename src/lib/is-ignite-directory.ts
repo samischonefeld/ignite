@@ -3,6 +3,7 @@
  */
 export default function isIgniteDirectory(directory: string): boolean {
   const jetpack = require('fs-jetpack')
+
   // read the ignite config
   const igniteConfigPath = `${directory}/ignite/ignite.json`
 

@@ -13,7 +13,7 @@ export default (toolbox: IgniteToolbox) => {
     let name
     if (options.version) {
       name = `${moduleName}@${options.version}`
-    } else if (toolbox.parameters.second.includes(path.sep)) {
+    } else if (toolbox.parameters.first.includes(path.sep)) {
       // If adding from a directory, then display a deprecation warning.
       // This is to alert plugin authors to the issue without cluttering others' output.
       toolbox.print.warning(`DEPRECATION WARNING:`)

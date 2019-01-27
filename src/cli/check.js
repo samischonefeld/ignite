@@ -1,23 +1,8 @@
 // @ts-nocheck
 // NOTE:  this file is intentionally written with es3
 
-var Sniff = require('gluegun/sniff')
 var shell = require('shelljs')
 var which = require('which')
-
-console.log(Sniff)
-
-// check the node version
-if (!Sniff.isNewEnough) {
-  console.log('Node.js 7.6+ is required to run. You have ' + Sniff.nodeVersion + '. Womp, womp.')
-  process.exit(1)
-}
-
-// check for async and await
-if (!Sniff.hasAsyncAwait) {
-  console.log('The async feature is not available. Please ensure your Node is up to date.')
-  process.exit(2)
-}
 
 // Quick n dirty dependency checking
 // Saves us 0.350s on startup over full dependency checking

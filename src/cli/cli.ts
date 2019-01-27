@@ -1,6 +1,5 @@
 import * as minimist from 'minimist'
 import { build, print } from 'gluegun'
-import { isEmpty } from 'ramda'
 import * as PrettyError from 'pretty-error'
 const pe = new PrettyError()
 
@@ -30,16 +29,8 @@ module.exports = {
       throw e // rethrow
     }
 
-    // parse the commandLine line
+    // parse the command line
     const commandLine = minimist(argv.slice(2))
-
-    // should we show the version number & jet?
-    const hasNoArguments = isEmpty(commandLine._)
-    const hasVersionOption = commandLine.version || commandLine.v
-    if (hasNoArguments && hasVersionOption) {
-      await runtime.run({ rawCommand: 'version' })
-      return
-    }
 
     if (commandLine.verbose && !commandLine.debug) {
       print.error('Use --debug instead of --verbose.')
