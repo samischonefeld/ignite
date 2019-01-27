@@ -1,13 +1,10 @@
 import { reduce, flatten, takeLast, split, map, replace } from 'ramda'
 import * as path from 'path'
-import { IgniteToolbox } from '../../types'
+import { IgniteToolbox, IgnitePluginScreenFile } from '../../types'
 
 export default (toolbox: IgniteToolbox) => {
   /**
    * Generates example screens for in dev screens.
-   *
-   * @param {Array} files - Array of Screens and properties
-   * @param {Object} props - The properties to use for template expansion.
    *
    * example:
    * addScreenExamples([
@@ -16,10 +13,7 @@ export default (toolbox: IgniteToolbox) => {
    *   {title: 'Section Example', screen: 'Section.js', ancillary: ['file']},
    * ])
    */
-  async function addPluginScreenExamples(
-    files: { title: string; screen: string; ancillary: string[] }[],
-    props = Object,
-  ) {
+  async function addPluginScreenExamples(files: IgnitePluginScreenFile[], props = Object) {
     const { filesystem, ignite, print, template } = toolbox
     const { ignitePluginPath } = ignite
 

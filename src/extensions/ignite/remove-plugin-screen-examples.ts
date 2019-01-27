@@ -1,6 +1,6 @@
 import { flatten, replace, reduce, takeLast, split } from 'ramda'
 import * as path from 'path'
-import { IgniteToolbox } from '../../types'
+import { IgniteToolbox, IgnitePluginScreenFile } from '../../types'
 
 export default (toolbox: IgniteToolbox) => {
   /**
@@ -15,7 +15,7 @@ export default (toolbox: IgniteToolbox) => {
    *   {screen: 'Section.js', ancillary: ['file']},
    * ])
    */
-  async function removePluginScreenExamples(files: { screen: string; ancillary: string[] }[]) {
+  async function removePluginScreenExamples(files: IgnitePluginScreenFile[]) {
     const { filesystem, ignite, print } = toolbox
     const { ignitePluginPath, patching } = ignite
 

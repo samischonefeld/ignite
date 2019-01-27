@@ -1,11 +1,12 @@
+import { IgniteToolbox } from '../types'
+
 /**
  * Fetches plugin registry from Github
  *
- * @param {Object} context The gluegun context.
+ * @param {Object} toolbox The gluegun toolbox.
  */
-
-export default async function(context) {
-  const api = context.http.create({
+export default async function(toolbox: IgniteToolbox): Promise<any> {
+  const api = toolbox.http.create({
     baseURL: 'https://raw.githubusercontent.com/infinitered/ignite-plugins',
   })
 

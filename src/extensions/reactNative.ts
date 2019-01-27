@@ -1,6 +1,6 @@
 import { test, trim } from 'ramda'
 import exitCodes from '../lib/exit-codes'
-import { IgniteToolbox } from '../types'
+import { IgniteToolbox, IgniteRNInstallResult } from '../types'
 
 // DEPRECATED: Please specify React Native version when invoking install
 // Example: const rnInstall = await reactNative.install({ name, version: '0.42.0' })
@@ -19,11 +19,7 @@ function attach(toolbox: IgniteToolbox) {
    */
   async function install(
     opts: { name?: string; version?: string; template?: string; skipJest?: boolean; useNpm?: boolean } = {},
-  ): Promise<{
-    exitCode: number
-    version: string
-    template: string
-  }> {
+  ): Promise<IgniteRNInstallResult> {
     //  grab the name & version
     const name = opts.name || parameters.first
     let reactNativeVersion = opts.version || parameters.options['react-native-version']

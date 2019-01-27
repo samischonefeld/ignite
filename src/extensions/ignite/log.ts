@@ -8,7 +8,7 @@ export default (toolbox: IgniteToolbox) => {
    * @param {string|Object} message - The message to write
    */
   const pe = new PrettyError()
-  function log(message) {
+  function log(message: string) {
     const { parameters, print } = toolbox
     // jet if we're not running in debug mode
     if (!parameters.options.debug) return

@@ -7,7 +7,7 @@ export default (toolbox: IgniteToolbox) => {
    *
    * @param {string}  key Key of setting to be removed
    */
-  function removeDebugConfig(key) {
+  function removeDebugConfig(key: string) {
     const { print, filesystem, ignite } = toolbox
     const debugConfig = `${process.cwd()}/App/Config/DebugConfig.js`
 

@@ -8,29 +8,22 @@ export default (toolbox: IgniteToolbox) => {
 
   /**
    * Reads the contents of the ignite/ignite.json configuration.
-   *
-   * @return {Object} The configuration.
    */
-  function loadIgniteConfig() {
+  function loadIgniteConfig(): Object {
     return filesystem.exists(igniteConfigFilename) ? filesystem.read(igniteConfigFilename, 'json') || {} : {}
   }
 
   /**
    * Saves a new ignite config file.
-   *
-   * @param {Object} config The new configuration object to save.
    */
-  function saveIgniteConfig(config = {}) {
+  function saveIgniteConfig(config: Object = {}) {
     filesystem.write(igniteConfigFilename, config, { jsonIndent: 2 })
   }
 
   /**
    * Sets an ignite config setting
-   *
-   * @param {string} key Key of setting to be defined
-   * @param {string} value Value to be set
    */
-  function setIgniteConfig(key, value, isVariableName = false) {
+  function setIgniteConfig(key: string, value: string) {
     const igniteConfig = loadIgniteConfig()
     igniteConfig[key] = value
     saveIgniteConfig(igniteConfig)
@@ -38,10 +31,8 @@ export default (toolbox: IgniteToolbox) => {
 
   /**
    * Remove Global Config setting
-   *
-   * @param {string}  key Key of setting to be removed
    */
-  function removeIgniteConfig(key) {
+  function removeIgniteConfig(key: string) {
     const igniteConfig = dissoc(key, loadIgniteConfig())
     saveIgniteConfig(igniteConfig)
   }

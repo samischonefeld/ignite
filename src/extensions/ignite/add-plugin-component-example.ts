@@ -1,6 +1,5 @@
 import { IgniteToolbox } from '../../types'
-
-const path = require('path')
+import * as path from 'path'
 
 export default (toolbox: IgniteToolbox) => {
   /**
@@ -11,7 +10,7 @@ export default (toolbox: IgniteToolbox) => {
     const { ignitePluginPath } = ignite
     const config = ignite.loadIgniteConfig()
 
-    let templateFile
+    let templateFile: string
     if (fileName.endsWith('.ejs')) {
       templateFile = fileName
     } else {

@@ -9,7 +9,7 @@ export default (toolbox: IgniteToolbox) => {
    *
    * @param {string} key - Permission name to be removed e.g. `ACCESS_NETWORK_STATE`
    */
-  function removeAndroidPermission(key) {
+  function removeAndroidPermission(key: string) {
     const { filesystem, print, ignite } = toolbox
     const permissionString = `<uses-permission android:name="android.permission.${key.toUpperCase()}" />`
     const manifestFile = `${APP_PATH}/android/app/src/main/AndroidManifest.xml`

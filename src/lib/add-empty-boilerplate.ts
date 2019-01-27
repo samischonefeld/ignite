@@ -1,10 +1,12 @@
-export default async function(context) {
-  const { filesystem, parameters, meta, print, reactNative } = context
+import { IgniteToolbox, IgniteRNInstallResult } from '../types'
+
+export default async function(toolbox: IgniteToolbox) {
+  const { filesystem, parameters, meta, print, reactNative } = toolbox
   const name = parameters.first
   const spinner = print.spin(`skipping boilerplate`).succeed()
 
   // attempt to install React Native or die trying
-  const rnInstall = await reactNative.install({ name })
+  const rnInstall: IgniteRNInstallResult = await reactNative.install({ name })
   if (rnInstall.exitCode > 0) process.exit(rnInstall.exitCode)
 
   // ignite/ignite.json

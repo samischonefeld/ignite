@@ -1,4 +1,4 @@
-import { IgniteToolbox } from '../../types'
+import { IgniteToolbox, IgniteCopyJob } from '../../types'
 
 export type CopyBatchOptions = {
   quiet?: boolean
@@ -24,7 +24,7 @@ export default (toolbox: IgniteToolbox) => {
    * @param {bool}  opts.quiet     - don't write anything (optional)
    * @param {bool}  opts.directory - the directory to use as the template source (optional)
    */
-  async function copyBatch(toolbox, jobs, props, opts: CopyBatchOptions = {}) {
+  async function copyBatch(toolbox: IgniteToolbox, jobs: IgniteCopyJob[], props, opts: CopyBatchOptions = {}) {
     // grab some features
     const { template, prompt, filesystem, ignite, print } = toolbox
     const { confirm } = prompt

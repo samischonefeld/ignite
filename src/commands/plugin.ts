@@ -1,6 +1,6 @@
 import exitCodes from '../lib/exit-codes'
 import validateName from '../lib/validate-name'
-import { IgniteToolbox } from '../types'
+import { IgniteToolbox, IgniteCopyJob } from '../types'
 
 /**
  * Does a walkthrough of questions and returns the answers as an object.
@@ -57,7 +57,7 @@ const createNewPlugin = async (toolbox: IgniteToolbox) => {
   // Here we go!
   print.info(`Creating new plugin: ${pluginName}`)
 
-  const copyJobs = [
+  const copyJobs: IgniteCopyJob[] = [
     { template: 'plugin/gitignore', target: `${pluginName}/.gitignore` },
     { template: 'plugin/plugin.js.ejs', target: `${pluginName}/plugin.js` },
     { template: 'plugin/ignite.json.ejs', target: `${pluginName}/ignite.json` },

@@ -67,3 +67,20 @@ export type IgnitePatchInFileOptions = {
   delete?: string
   force?: boolean
 }
+
+export type IgniteRNInstallResult = {
+  exitCode: number
+  version: string
+  template: string
+}
+
+export type IgnitePluginScreenFile = {
+  screen: string
+  ancillary: string[]
+  title?: string
+}
+
+export type IgniteCopyJob = {
+  target: string
+  template: string
+}

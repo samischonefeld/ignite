@@ -1,11 +1,7 @@
 /**
  * Returns a list of keys whose values have changed.
- *
- * @param {Object} oldObject The original version.
- * @param {Object} newObject The new version.
- * @return {Array[String]} A list of keys with single quotes around them.
  */
-export default (oldObject, newObject) => {
+export default (oldObject: Object, newObject: Object): string[] => {
   const { keys, intersection, reduce, concat } = require('ramda')
   let oldKeys = keys(oldObject)
   let newKeys = keys(newObject)

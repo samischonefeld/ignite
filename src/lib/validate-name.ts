@@ -1,16 +1,13 @@
 import exitCodes from './exit-codes'
 import prependIgnite from './prepend-ignite'
+import { IgniteToolbox } from '../types'
 
 /**
  * Checks whether a plugin name was given and errors if not.
  * Also prepends `ignite-*` if plugin name didn't include it.
- *
- * @param {String} pluginName The provided plugin name.
- * @param {Object} context The gluegun context.
- * @returns {String} The normalized name.
  */
-export default (pluginName, context) => {
-  const { strings, print } = context
+export default (pluginName: string, toolbox: IgniteToolbox): string => {
+  const { strings, print } = toolbox
 
   if (strings.isBlank(pluginName)) {
     print.info(`ignite plugin new ignite-foo\n`)
