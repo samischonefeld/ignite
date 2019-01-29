@@ -1,10 +1,10 @@
 const attach = require('../../../src/extensions/ignite')
 const path = require('path')
+const jetpack = require('fs-jetpack')
 
 test('has the right interface', () => {
   expect(typeof attach).toBe('function')
-  const plugin = null
-  const command = null
+
   const toolbox = {
     print: {},
     parameters: {
@@ -15,6 +15,7 @@ test('has the right interface', () => {
     },
     filesystem: {
       separator: path.sep,
+      ...jetpack,
     },
   }
 
