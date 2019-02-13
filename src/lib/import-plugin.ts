@@ -75,6 +75,7 @@ export default async (toolbox: IgniteToolbox, specs: IgniteDetectInstall): Promi
       await importPlugin(toolbox, specs)
     } catch (e) {
       if (e.unavailable) {
+        print.info(e)
         spinner.fail(`${print.colors.bold(moduleName)} is not available on npm.`)
         print.info('')
         print.info(print.colors.muted('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'))

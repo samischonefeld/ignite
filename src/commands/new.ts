@@ -157,14 +157,10 @@ module.exports = {
     })
 
     // let's kick off the template
-    let ok = false
-    try {
-      await boilerplateInstall(toolbox)
-      log('finished boilerplate')
-      ok = true
-    } catch (e) {
-      log('error running boilerplate')
-      log(e)
+    const ok = await boilerplateInstall(toolbox)
+    if (!ok) {
+      print.error('error installing boilerplate')
+      process.exit(exitCodes.GENERIC)
     }
 
     // always clean up the app-template stuff

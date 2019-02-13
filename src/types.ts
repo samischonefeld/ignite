@@ -51,6 +51,7 @@ export type IgniteDetectInstall = {
   directory?: string
   override?: boolean
   version?: string
+  error?: string
 }
 
 export type IgniteNPMPackageParts = {

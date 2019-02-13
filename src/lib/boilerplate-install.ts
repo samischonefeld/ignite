@@ -14,7 +14,7 @@ import { IgniteToolbox } from '../types'
  *    * runs it
  *
  */
-export default async (toolbox: IgniteToolbox): Promise<void> => {
+export default async (toolbox: IgniteToolbox): Promise<boolean> => {
   const { print, ignite, filesystem, parameters } = toolbox
 
   ignite.log('running boilerplate-install command')
@@ -22,7 +22,14 @@ export default async (toolbox: IgniteToolbox): Promise<void> => {
   const boilerplateName: string = parameters.options.boilerplate || parameters.options.b
 
   // determine where the package comes from
-  const installSource = detectInstall(boilerplateName, toolbox)
+  let installSource
+  try {
+    installSource = detectInstall(boilerplateName, toolbox)
+  } catch (e) {
+    print.error(e.message)
+    return false
+  }
+
   const { moduleName } = installSource
   const modulePath = `${process.cwd()}/node_modules/${moduleName}`
   const boilerplateJs = modulePath + '/boilerplate.js'
@@ -66,8 +73,10 @@ export default async (toolbox: IgniteToolbox): Promise<void> => {
   // run the boilerplate
   try {
     await pluginModule.install(toolbox)
+    return true
   } catch (e) {
     print.error(`an error occured while installing ${moduleName} boilerplate.`)
     print.error(e)
+    return false
   }
 }

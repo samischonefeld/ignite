@@ -37,9 +37,16 @@ test('detects plugins from a relative path', async () => {
   expect(actual).toEqual(expected)
 })
 
-test('detects invalid plugin directories', async () => {
+test('detects invalid plugin names', async () => {
   const moduleName = 'ignite-invalid-plugin'
   const actual = detectInstall(moduleName, { filesystem })
   const expected = { type: 'npm', moduleName, version: undefined }
   expect(actual).toEqual(expected)
+})
+
+test(`throws if plugin path doesn't exist`, async () => {
+  const moduleName = '/ignite-invalid-plugin'
+  expect(() => detectInstall(moduleName, { filesystem })).toThrow(
+    `Couldn't find package at /ignite-invalid-plugin. Check path and try again.`,
+  )
 })

@@ -1,6 +1,6 @@
-const { system } = require('gluegun')
+const { system, filesystem } = require('gluegun')
 
-const IGNITE = './bin/ignite'
+const IGNITE = filesystem.path(`${__dirname}/../../../bin/ignite`)
 
 test('unknown command', async () => {
   const result = await system.spawn(`${IGNITE} OMGWTFBBQ`)

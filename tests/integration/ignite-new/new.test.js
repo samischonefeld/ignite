@@ -1,7 +1,8 @@
 const { system, filesystem } = require('gluegun')
 const tempy = require('tempy')
 
-const IGNITE = `${process.cwd()}/bin/ignite`
+const IGNITE = filesystem.path(`${__dirname}/../../../bin/ignite`)
+const IGNITE_BOILERPLATE = filesystem.path(`${__dirname}/../../../../ignite-andross`)
 const APP_NAME = 'Foo'
 
 jest.setTimeout(10 * 60 * 1000)
@@ -21,10 +22,19 @@ afterEach(() => {
 test('spins up a min app and performs various checks', async done => {
   // ignite the eternal flame
   // If you have to ignite it, how is it eternal?
-  await system.run(`${IGNITE} new ${APP_NAME} --min -b ignite-andross --debug`, opts)
+  const result = await system.run(`${IGNITE} new ${APP_NAME} --min -b ${IGNITE_BOILERPLATE} --debug`, opts)
+
+  // um
+  expect(result).toContain(`Ignited Foo`)
 
   // Jump into the app directory
   process.chdir(APP_NAME)
+
+  // check that the project was generated
+  const dirs = filesystem.subdirectories('.')
+  expect(dirs).toContain('ios')
+  expect(dirs).toContain('android')
+  expect(dirs).toContain('App')
 
   // check the contents of ignite/ignite.json
   const igniteJSON = filesystem.read(`${process.cwd()}/ignite/ignite.json`)

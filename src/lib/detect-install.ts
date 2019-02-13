@@ -11,8 +11,6 @@ import * as path from 'path'
  *   1. a plugin which exists in one of the plugin override paths
  *   2. a plugin which lives in a relative or absolute path
  *   3. otherwise let npm hook us up
- *
- * @return {object}         - specs about the type of install
  */
 export default function detectInstall(plugin: string, toolbox: IgniteToolbox): IgniteDetectInstall {
   // grab some gluegun goodies
@@ -28,18 +26,25 @@ export default function detectInstall(plugin: string, toolbox: IgniteToolbox): I
    * @param  {string} candidate - The potential directory to check.
    * @return {boolean}          - True if this is valid; otherwise false.
    */
-  const isValidIgnitePluginDirectory = candidate =>
-    filesystem.exists(candidate) === 'dir' && filesystem.exists(`${candidate}${sep}package.json`) === 'file'
+  function isValidIgnitePluginDirectory(candidate: string): boolean {
+    const isDir = filesystem.exists(candidate) === 'dir'
+    const packageIsFile = filesystem.exists(`${candidate}${sep}package.json`) === 'file'
+    return isDir && packageIsFile
+  }
 
   // Normalize package name
   let packageName = plugin
   let packageVersion = undefined
 
   // Check if referring to a path
-
-  console.log(plugin, sep)
   if (plugin.startsWith('.') || plugin.startsWith(sep)) {
-    packageName = filesystem.path(packageName)
+    // verify that the path exists and has a `package.json`
+    const packageExists = filesystem.exists(`${plugin}${sep}package.json`)
+    if (packageExists) {
+      packageName = filesystem.path(packageName)
+    } else {
+      throw new Error(`Couldn't find package at ${plugin}. Check path and try again.`)
+    }
   } else {
     // extract the package name and (optionally) version
     let { name, scoped, version } = packageExtract(plugin)

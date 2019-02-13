@@ -1,7 +1,7 @@
-const { system } = require('gluegun')
+const { system, filesystem } = require('gluegun')
 const tempy = require('tempy')
 
-const IGNITE = `${process.cwd()}/bin/ignite`
+const IGNITE = filesystem.path(`${__dirname}/../../../bin/ignite`)
 
 jest.setTimeout(30 * 1000)
 
